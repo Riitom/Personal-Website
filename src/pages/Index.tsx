@@ -1,14 +1,18 @@
-import ThemeToggle from "@/components/ThemeToggle";
+import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import SkillsSection from "@/components/SkillsSection";
-import FooterSection from "@/components/FooterSection";
+import AboutSection from "@/components/AboutSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
 
 const Index = () => (
   <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
-    <ThemeToggle />
+    <Navbar />
     <HeroSection />
-    <SkillsSection />
-    <FooterSection />
+    <AboutSection />
+    <ProjectsSection />
+    <ContactSection />
+    <Footer />
   </div>
 );
 

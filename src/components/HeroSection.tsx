@@ -1,107 +1,102 @@
 import { motion } from "framer-motion";
-import { Terminal, ChevronRight } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Briefcase } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
-      {/* Floating grid bg */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: 'radial-gradient(hsl(var(--primary)) 1px, transparent 1px)',
-        backgroundSize: '30px 30px'
+    <section className="min-h-screen flex flex-col justify-center px-6 pt-20 relative overflow-hidden">
+      {/* Subtle dot grid */}
+      <div className="absolute inset-0 opacity-[0.025]" style={{
+        backgroundImage: 'radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)',
+        backgroundSize: '24px 24px'
       }} />
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center relative z-10"
-      >
-        {/* Status badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
+      <div className="max-w-4xl mx-auto w-full relative z-10">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="section-label mb-4"
         >
-          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          <span className="text-sm font-mono text-primary">Ready to Work</span>
-        </motion.div>
+          Hi, I'm
+        </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="text-5xl md:text-7xl font-bold font-heading mb-4 text-foreground"
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="text-5xl sm:text-6xl md:text-7xl font-bold font-heading mb-6 leading-tight"
         >
-          Hey, I'm{" "}
-          <span className="text-primary text-glow-strong">Developer</span>
+          Riitom <span className="text-primary text-glow-strong">Modak</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-10"
+          transition={{ delay: 0.35 }}
+          className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8 leading-relaxed"
         >
-          An enthusiastic coder learning various languages, passionate about
-          Data Structures & Algorithms, and building cool things.
+          A developer who builds clean, interactive experiences for the web. 
+          Currently crafting digital products that people love.
         </motion.p>
 
-        {/* Terminal card */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="max-w-lg mx-auto bg-card border border-border rounded-xl p-5 text-left font-mono text-sm box-glow"
+          transition={{ delay: 0.5 }}
+          className="flex flex-wrap items-center gap-4 mb-10"
         >
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-3 h-3 rounded-full bg-destructive" />
-            <div className="w-3 h-3 rounded-full bg-[hsl(45,93%,47%)]" />
-            <div className="w-3 h-3 rounded-full bg-primary" />
-          </div>
-          <TypingLine delay={1.0} text='> const me = "Enthusiastic Coder";' />
-          <TypingLine delay={2.2} text='> const interests = ["DSA", "Web Dev", "Problem Solving"];' />
-          <TypingLine delay={3.6} text='> const status = "🟢 Ready to Work";' />
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 5 }}
-            className="flex items-center gap-1 text-primary mt-1"
-          >
-            <ChevronRight className="w-4 h-4" />
-            <span className="animate-pulse">_</span>
-          </motion.div>
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm text-muted-foreground">
+            <MapPin className="w-3.5 h-3.5" /> Kolkata
+          </span>
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-sm text-primary font-medium">
+            <Briefcase className="w-3.5 h-3.5" />
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            Open to work
+          </span>
         </motion.div>
-      </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="flex items-center gap-3"
+        >
+          {[
+            { icon: Github, href: "https://github.com", label: "GH" },
+            { icon: Linkedin, href: "https://linkedin.com", label: "LI" },
+            { icon: Mail, href: "mailto:riitom@email.com", label: "Email" },
+          ].map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-xl bg-card border border-border hover:border-primary/30 hover:box-glow transition-all duration-300 group"
+              aria-label={link.label}
+            >
+              <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+            </a>
+          ))}
+        </motion.div>
+      </div>
 
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-10"
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
-          className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center pt-2"
+          className="w-5 h-9 rounded-full border-2 border-muted-foreground/20 flex items-start justify-center pt-2"
         >
-          <div className="w-1 h-2 rounded-full bg-primary" />
+          <div className="w-1 h-1.5 rounded-full bg-primary" />
         </motion.div>
       </motion.div>
     </section>
   );
 };
-
-const TypingLine = ({ text, delay }: { text: string; delay: number }) => (
-  <motion.p
-    initial={{ opacity: 0, width: 0 }}
-    animate={{ opacity: 1, width: "100%" }}
-    transition={{ delay, duration: 0.8 }}
-    className="text-muted-foreground overflow-hidden whitespace-nowrap"
-  >
-    {text}
-  </motion.p>
-);
 
 export default HeroSection;
