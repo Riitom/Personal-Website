@@ -35,8 +35,7 @@ const HeroSection = () => {
           transition={{ delay: 0.35 }}
           className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8 leading-relaxed"
         >
-          A developer who builds clean, interactive experiences for the web. 
-          Currently crafting digital products that people love.
+          I’m an enthusiastic learner and aspiring developer, passionate about creating interactive experiences and growing through code. 
         </motion.p>
 
         <motion.div
@@ -62,9 +61,9 @@ const HeroSection = () => {
           className="flex items-center gap-3"
         >
           {[
-            { icon: Github, href: "https://github.com", label: "GH" },
-            { icon: Linkedin, href: "https://linkedin.com", label: "LI" },
-            { icon: Mail, href: "mailto:riitom@email.com", label: "Email" },
+            { icon: Github, href: "https://github.com/Riitom", label: "GH" },
+            { icon: Linkedin, href: "https://www.linkedin.com/authwall?trk=gf&trkInfo=AQGXhoEmvSdULwAAAZxxJI34x72LTjfP9p8tS4a-MfHKp0ygY0RuinDfpEpRokAJxrT4lyHl6e8ZUoiYtrd-N3yw1NNcntfsrKe1p3s7oNIbjda1lS_afBQLibYLbtn9Y3kFa_Q=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Friitom-modak-b018a131a%3Futm_source%3Dshare%26utm_campaign%3Dshare_via%26utm_content%3Dprofile%26utm_medium%3Dandroid_app", label: "LI" },
+            { icon: Mail, href: "mailto:riitom09@Gmail.com", label: "Email" },
           ].map((link) => (
             <a
               key={link.label}

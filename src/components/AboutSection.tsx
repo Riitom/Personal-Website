@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 const skills = [
   { category: "Frontend", items: ["React", "TypeScript", "Tailwind CSS"] },
   { category: "Backend", items: ["Node.js", "Python"] },
-  { category: "Languages", items: ["C", "C++", "Java"] },
-  { category: "Tools", items: ["Git", "VS Code", "Linux"] },
+  { category: "Languages", items: ["C", "C++", "Java", "Python"] },
+  { category: "Tools", items: ["Git", "VS Code", "Linux", "Mac"] },
 ];
 
 const AboutSection = () => (
@@ -36,10 +36,9 @@ const AboutSection = () => (
         transition={{ delay: 0.2 }}
         className="text-muted-foreground text-lg leading-relaxed mb-12 max-w-2xl"
       >
-        I'm an enthusiastic coder passionate about building products that are both 
-        beautiful and functional. Currently learning various programming languages 
-        and deeply interested in <span className="text-primary font-medium">Data Structures & Algorithms</span>. 
-        I love solving complex problems and turning ideas into reality with clean code.
+        I’m a driven coder, deeply focused on logical problem-solving and algorithmic design. 
+        I actively work on strengthening my skills in <span className="text-primary font-medium">Data Structures and Algorithms</span>
+        while building efficient and structured solutions.
       </motion.p>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

@@ -9,8 +9,8 @@ const projects = [
   },
   {
     title: "Project Beta",
-    description: "Mobile-first dashboard with real-time data",
-    tags: ["Next.js", "Supabase", "Charts"],
+    description: "Smart room temperature monitoring and controlling system using Machine Learning",
+    tags: ["Python", "Raspberry Pi", "TensorFlow"],
   },
   {
     title: "Project Gamma",
