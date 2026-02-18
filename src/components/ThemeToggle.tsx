@@ -1,6 +1,6 @@
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ThemeToggle = () => {
   const [dark, setDark] = useState(true);
@@ -12,18 +12,20 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => setDark(!dark)}
-      className="fixed top-6 right-6 z-50 p-3 rounded-full bg-card border border-border box-glow hover:box-glow-strong transition-all duration-300"
+      className="p-2.5 rounded-full bg-secondary/80 border border-border hover:box-glow transition-all duration-300"
       aria-label="Toggle theme"
     >
-      <motion.div
-        key={dark ? "moon" : "sun"}
-        initial={{ rotate: -90, opacity: 0 }}
-        animate={{ rotate: 0, opacity: 1 }}
-        exit={{ rotate: 90, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        {dark ? <Moon className="w-5 h-5 text-primary" /> : <Sun className="w-5 h-5 text-primary" />}
-      </motion.div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={dark ? "moon" : "sun"}
+          initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+          animate={{ rotate: 0, opacity: 1, scale: 1 }}
+          exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
+          transition={{ duration: 0.2 }}
+        >
+          {dark ? <Moon className="w-4 h-4 text-primary" /> : <Sun className="w-4 h-4 text-primary" />}
+        </motion.div>
+      </AnimatePresence>
     </button>
   );
 };
