@@ -47,17 +47,29 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
       },
       plugins,
     );
-    const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-    const [canScrollNext, setCanScrollNext] = React.useState(false);
+    const subscribeToScrollState = React.useCallback(
+      (callback: () => void) => {
+        if (!api) {
+          return () => {};
+        }
 
-    const onSelect = React.useCallback((api: CarouselApi) => {
-      if (!api) {
-        return;
-      }
+        api.on("reInit", callback);
+        api.on("select", callback);
 
-      setCanScrollPrev(api.canScrollPrev());
-      setCanScrollNext(api.canScrollNext());
-    }, []);
+        return () => {
+          api.off("reInit", callback);
+          api.off("select", callback);
+        };
+      },
+      [api],
+    );
+
+    const getScrollSnapshot = React.useCallback(() => {
+      return `${api?.canScrollPrev() ?? false}:${api?.canScrollNext() ?? false}`;
+    }, [api]);
+
+    const scrollState = React.useSyncExternalStore(subscribeToScrollState, getScrollSnapshot, () => "false:false");
+    const [canScrollPrev, canScrollNext] = scrollState.split(":").map((value) => value === "true");
 
     const scrollPrev = React.useCallback(() => {
       api?.scrollPrev();
@@ -87,20 +99,6 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 
       setApi(api);
     }, [api, setApi]);
-
-    React.useEffect(() => {
-      if (!api) {
-        return;
-      }
-
-      onSelect(api);
-      api.on("reInit", onSelect);
-      api.on("select", onSelect);
-
-      return () => {
-        api?.off("select", onSelect);
-      };
-    }, [api, onSelect]);
 
     return (
       <CarouselContext.Provider
