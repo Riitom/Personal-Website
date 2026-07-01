@@ -63,7 +63,7 @@ const HeroSection = () => {
           {[
             { icon: Code2, href: "https://github.com/Riitom", label: "GH" },
             { icon: Network, href: "https://www.linkedin.com/authwall?trk=gf&trkInfo=AQGXhoEmvSdULwAAAZxxJI34x72LTjfP9p8tS4a-MfHKp0ygY0RuinDfpEpRokAJxrT4lyHl6e8ZUoiYtrd-N3yw1NNcntfsrKe1p3s7oNIbjda1lS_afBQLibYLbtn9Y3kFa_Q=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Friitom-modak-b018a131a%3Futm_source%3Dshare%26utm_campaign%3Dshare_via%26utm_content%3Dprofile%26utm_medium%3Dandroid_app", label: "LI" },
-            { icon: Mail, href: "mailto:riitom09@Gmail.com", label: "Email" },
+            { icon: Mail, href: "https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com", label: "Email" },
           ].map((link) => (
             <a
               key={link.label}

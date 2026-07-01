@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 
 const skills = [
-  { category: "Frontend", items: ["React", "TypeScript", "Tailwind CSS"] },
-  { category: "Backend", items: ["Node.js", "Python"] },
-  { category: "Languages", items: ["C", "C++", "Java", "Python"] },
-  { category: "Tools", items: ["Git", "VS Code", "Linux", "Mac"] },
+  { category: "Frontend", items: ["React", "TypeScript", "Tailwind CSS", "Vite", "Framer Motion"] },
+  { category: "Backend", items: ["Python", "FastAPI", "SQLite", "REST APIs"] },
+  { category: "Languages", items: ["Python", "C", "C++", "Java", "TypeScript"] },
+  { category: "Tools", items: ["Git", "VS Code", "YOLO", "PyTorch", "Ultralytics"] },
 ];
 
 const AboutSection = () => (
@@ -36,9 +36,9 @@ const AboutSection = () => (
         transition={{ delay: 0.2 }}
         className="text-muted-foreground text-lg leading-relaxed mb-12 max-w-2xl"
       >
-        I’m a driven coder, deeply focused on logical problem-solving and algorithmic design. 
-        I actively work on strengthening my skills in <span className="text-primary font-medium">Data Structures and Algorithms</span>
-        while building efficient and structured solutions.
+        I’m a B.Tech Computer Science and Engineering student and a tech enthusiast with a strong interest in{" "}
+        <span className="text-primary font-medium">AI and ML</span>. I enjoy building practical, Python-driven projects
+        that connect software, data, computer vision, and real-world problem solving.
       </motion.p>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

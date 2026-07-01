@@ -34,7 +34,9 @@ const ContactSection = () => (
       </motion.p>
 
       <motion.a
-        href="mailto:riitom09@Gmail.com"
+        href="https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com"
+        target="_blank"
+        rel="noreferrer"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -44,7 +46,7 @@ const ContactSection = () => (
         className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:box-glow-strong transition-all duration-300"
       >
         <Mail className="w-4 h-4" />
-        Get in touch
+        Mail me
       </motion.a>
     </div>
   </section>

@@ -3,9 +3,10 @@ import { ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
-    title: "Project Alpha",
-    description: "A web application built with React and TypeScript",
-    tags: ["React", "TypeScript", "Tailwind"],
+    title: "AI-Assisted Scrap Detection And Weight Estimation",
+    description:
+      "AI-powered scrap inspection system that uses a YOLO model, FastAPI, and React to detect materials, estimate weight ranges, and keep auditable inspection history.",
+    tags: ["Python", "YOLO", "FastAPI", "React"],
   },
   {
     title: "Project Beta",
@@ -14,8 +15,8 @@ const projects = [
   },
   {
     title: "Project Gamma",
-    description: "E-commerce platform with seamless checkout",
-    tags: ["Node.js", "Stripe", "PostgreSQL"],
+    description: "A web application built with React and TypeScript",
+    tags: ["React", "TypeScript", "Tailwind"],
   },
 ];
 
