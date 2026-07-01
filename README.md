@@ -1,73 +1,91 @@
-# Welcome to your Lovable project
+# Riitom Modak Personal Website
 
-## Project info
+A clean personal portfolio website built as a hobby project to practice modern frontend development, motion design, and personal branding. The site introduces me as a B.Tech Computer Science and Engineering student with an interest in AI, ML, Python-driven projects, computer vision, and practical software systems.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Links
 
-## How can I edit this code?
+- Repository: https://github.com/Riitom/Personal-Website
+- GitHub profile: https://github.com/Riitom
+- LinkedIn: https://www.linkedin.com/in/riitom-modak-b018a131a
+- Mail: https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com
+- Featured project: https://github.com/Riitom/AI-Assisted-Scrap-Detection-And-Weight-Estimation
 
-There are several ways of editing your application.
+## About The Project
 
-**Use Lovable**
+This website is a lightweight portfolio and learning project. It is not a commercial product; it is a personal space for showing my profile, skills, and selected projects while improving my frontend workflow.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+The current version highlights:
 
-Changes made via Lovable will be committed automatically to this repo.
+- AI and ML-focused personal introduction
+- skill tiles for frontend, backend, languages, and tools
+- featured project section with AI-Assisted Scrap Detection And Weight Estimation
+- dark/light theme toggle
+- animated sections with Framer Motion
+- direct profile and contact links
 
-**Use your preferred IDE**
+## Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Lucide React
+- React Router
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Featured Project
 
-Follow these steps:
+### AI-Assisted Scrap Detection And Weight Estimation
+
+An AI-powered scrap inspection system that uses a YOLO model, FastAPI, and React to detect materials, estimate weight ranges, and keep auditable inspection history.
+
+Repository: https://github.com/Riitom/AI-Assisted-Scrap-Detection-And-Weight-Estimation
+
+## Getting Started
+
+Install dependencies:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+npm install
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Run the local development server:
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Create a production build:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+npm run build
+```
 
-**Use GitHub Codespaces**
+Preview the production build locally:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sh
+npm run preview
+```
 
-## What technologies are used for this project?
+Run lint checks:
 
-This project is built with:
+```sh
+npm run lint
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Deployment
 
-## How can I deploy this project?
+This is a static Vite site, so it can be deployed on platforms like Vercel or Netlify.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Recommended settings:
 
-## Can I connect a custom domain to my Lovable project?
+```text
+Build command: npm run build
+Output directory: dist
+```
 
-Yes, you can!
+For single-page app routing, configure a fallback rewrite to `index.html` if the hosting platform requires it.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Notes
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project started from a generated frontend template, but it has been cleaned and simplified so the repository now contains only the files and dependencies needed to run the portfolio.
