@@ -7,11 +7,13 @@ const projects = [
     description:
       "AI-powered scrap inspection system that uses a YOLO model, FastAPI, and React to detect materials, estimate weight ranges, and keep auditable inspection history.",
     tags: ["Python", "YOLO", "FastAPI", "React"],
+    href: "https://github.com/Riitom/AI-Assisted-Scrap-Detection-And-Weight-Estimation",
   },
   {
     title: "Project Beta",
     description: "Smart room temperature monitoring and controlling system using Machine Learning",
     tags: ["Python", "Raspberry Pi", "TensorFlow"],
+    href: "https://github.com/Riitom/Personal-Website",
   },
   {
     title: "Project Gamma",
@@ -46,7 +48,9 @@ const ProjectsSection = () => (
         {projects.map((project, i) => (
           <motion.a
             key={project.title}
-            href="#"
+            href={project.href}
+            target={project.href.startsWith("http") ? "_blank" : undefined}
+            rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
