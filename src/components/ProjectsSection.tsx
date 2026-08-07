@@ -19,6 +19,7 @@ const projects = [
     title: "Project Gamma",
     description: "A web application built with React and TypeScript",
     tags: ["React", "TypeScript", "Tailwind"],
+    href: "#",
   },
 ];
 
