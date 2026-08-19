@@ -11,14 +11,14 @@ const projects = [
   },
   {
     title: "Project Beta",
-    description: "Smart room temperature monitoring and controlling system using Machine Learning",
-    tags: ["Python", "Raspberry Pi", "TensorFlow"],
+    description: "A responsive personal portfolio website built with React, TypeScript, and Tailwind CSS.",
+    tags: ["React", "TypeScript", "Tailwind CSS"],
     href: "https://github.com/Riitom/Personal-Website",
   },
   {
     title: "Project Gamma",
-    description: "A web application built with React and TypeScript",
-    tags: ["React", "TypeScript", "Tailwind"],
+    description: "Smart room temperature monitoring and controlling system using Machine Learning",
+    tags: ["Python", "Raspberry Pi", "TensorFlow"],
     href: "#",
   },
 ];
