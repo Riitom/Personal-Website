@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 
 const ContactSection = () => (
-  <section id="contact" className="py-28 px-6">
-    <div className="max-w-4xl mx-auto text-center">
+  <section id="contact" className="py-20 md:py-28 px-5 sm:px-6 section-wrap">
+    <div className="max-w-5xl mx-auto glass-panel contact-panel text-center">
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ const ContactSection = () => (
         transition={{ delay: 0.3 }}
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.98 }}
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:box-glow-strong transition-all duration-300"
+        className="liquid-button inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold"
       >
         <Mail className="w-4 h-4" />
         Mail me

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
+import GooeyNav from "./reactbits/GooeyNav";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -22,8 +23,8 @@ const Navbar = () => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/80 backdrop-blur-lg border-b border-border shadow-sm" : ""
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? "glass-nav glass-nav-scrolled" : "glass-nav"
       }`}
     >
       <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
@@ -31,16 +32,8 @@ const Navbar = () => {
           riitom<span className="text-primary">.dev</span>
         </a>
         <div className="flex items-center gap-6">
-          <div className="hidden sm:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
-              >
-                {link.label}
-              </a>
-            ))}
+          <div className="hidden sm:block">
+            <GooeyNav items={navLinks} />
           </div>
           <ThemeToggle />
         </div>

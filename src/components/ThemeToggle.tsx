@@ -12,7 +12,7 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => setDark(!dark)}
-      className="p-2.5 rounded-full bg-secondary/80 border border-border hover:box-glow transition-all duration-300"
+      className="glass-toggle p-2.5 rounded-full"
       aria-label="Toggle theme"
     >
       <AnimatePresence mode="wait">

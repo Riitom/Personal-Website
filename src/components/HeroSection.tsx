@@ -1,53 +1,66 @@
 import { motion } from "framer-motion";
-import { Code2, Network, Mail, MapPin, Briefcase } from "lucide-react";
+import { Mail, MapPin, Briefcase } from "lucide-react";
+import GradientText from "./reactbits/GradientText";
+import Prism from "./reactbits/Prism";
+import TextPressure from "./reactbits/TextPressure";
+
+const GitHubMark = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 .55a11.45 11.45 0 0 0-3.62 22.31c.57.1.78-.24.78-.55v-2.1c-3.19.69-3.86-1.36-3.86-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.69.08-.69 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.25 3.33.96.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.95 10.95 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.24 2.75.12 3.04.73.8 1.17 1.83 1.17 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.07.78 2.16v3.2c0 .31.2.66.79.55A11.45 11.45 0 0 0 12 .55Z" />
+  </svg>
+);
+
+const LinkedInMark = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V8.99h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.29ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM3.56 20.45h3.57V8.99H3.56v11.46Z" />
+  </svg>
+);
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center px-6 pt-20 relative overflow-hidden">
-      {/* Subtle dot grid */}
-      <div className="absolute inset-0 opacity-[0.025]" style={{
-        backgroundImage: 'radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)',
-        backgroundSize: '24px 24px'
-      }} />
-
-      <div className="max-w-4xl mx-auto w-full relative z-10">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="section-label mb-4"
+    <section className="hero-section min-h-screen flex flex-col justify-center px-5 sm:px-6 pt-24 pb-16 relative">
+      <div className="hero-grid" aria-hidden="true" />
+      <div className="max-w-5xl mx-auto w-full relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 32, filter: "blur(12px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ delay: 0.1, duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="hero-name-stage"
         >
-          Hi, I'm
-        </motion.p>
+          <div className="hero-prism-shell">
+            <Prism />
+          </div>
+          <TextPressure text="RIITOM MODAK" accentIndex={7} minFontSize={46} />
+        </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-5xl sm:text-6xl md:text-7xl font-bold font-heading mb-6 leading-tight"
+          transition={{ delay: 0.22, duration: 0.65 }}
+          className="hero-domain-line"
         >
-          Riitom <span className="text-primary text-glow-strong">Modak</span>
-        </motion.h1>
+          <GradientText>AI · MACHINE LEARNING · COMPUTER VISION</GradientText>
+        </motion.div>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
-          className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8 leading-relaxed"
+          transition={{ delay: 0.32, duration: 0.7 }}
+          className="hero-intro text-lg md:text-xl max-w-2xl mb-9 leading-relaxed"
         >
-          I’m an enthusiastic learner and aspiring developer, passionate about creating interactive experiences and growing through code. 
+          An aspiring developer building thoughtful AI, machine learning, and computer vision experiences with Python.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-wrap items-center gap-4 mb-10"
+          transition={{ delay: 0.44, duration: 0.7 }}
+          className="flex flex-wrap items-center gap-3 mb-10"
         >
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm text-muted-foreground">
+          <span className="glass-pill inline-flex items-center gap-2 px-3.5 py-2 text-sm text-muted-foreground">
             <MapPin className="w-3.5 h-3.5" /> Kolkata
           </span>
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-sm text-primary font-medium">
+          <span className="glass-pill glass-pill-active inline-flex items-center gap-2 px-3.5 py-2 text-sm text-primary font-medium">
             <Briefcase className="w-3.5 h-3.5" />
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             Open to work
@@ -55,27 +68,38 @@ const HeroSection = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.56, duration: 0.7 }}
           className="flex items-center gap-3"
         >
-          {[
-            { icon: Code2, href: "https://github.com/Riitom", label: "GH" },
-            { icon: Network, href: "https://www.linkedin.com/in/riitom-modak-b018a131a/", label: "LI" },
-            { icon: Mail, href: "https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com", label: "Email" },
-          ].map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-xl bg-card border border-border hover:border-primary/30 hover:box-glow transition-all duration-300 group"
-              aria-label={link.label}
-            >
-              <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-            </a>
-          ))}
+          <a
+            href="https://github.com/Riitom"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link"
+            aria-label="GitHub profile"
+          >
+            <GitHubMark />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/riitom-modak-b018a131a/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link"
+            aria-label="LinkedIn profile"
+          >
+            <LinkedInMark />
+          </a>
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link"
+            aria-label="Email Riitom"
+          >
+            <Mail />
+          </a>
         </motion.div>
       </div>
 
@@ -89,7 +113,7 @@ const HeroSection = () => {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
-          className="w-5 h-9 rounded-full border-2 border-muted-foreground/20 flex items-start justify-center pt-2"
+          className="scroll-cue w-5 h-9 rounded-full flex items-start justify-center pt-2"
         >
           <div className="w-1 h-1.5 rounded-full bg-primary" />
         </motion.div>
