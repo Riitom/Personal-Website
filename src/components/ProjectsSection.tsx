@@ -25,7 +25,7 @@ const projects = [
 ];
 
 const ProjectsSection = () => (
-  <section id="projects" className="py-20 md:py-28 px-5 sm:px-6 section-wrap">
+  <section id="projects" className="py-12 md:py-16 px-5 sm:px-6 section-wrap">
     <div className="max-w-5xl mx-auto glass-panel section-panel">
       <motion.p
         initial={{ opacity: 0, y: 20 }}

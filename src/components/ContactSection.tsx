@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 
 const ContactSection = () => (
-  <section id="contact" className="py-20 md:py-28 px-5 sm:px-6 section-wrap">
+  <section id="contact" className="py-12 md:py-16 px-5 sm:px-6 section-wrap">
     <div className="max-w-5xl mx-auto glass-panel contact-panel text-center">
       <motion.p
         initial={{ opacity: 0, y: 20 }}
