@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import AboutSection from "@/components/AboutSection";
+import StorySection from "@/components/StorySection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -27,9 +27,9 @@ const Index = () => (
         className="scroll-gradual-blur"
       />
       <Navbar />
-      <main className="relative z-10 overflow-hidden">
+      <main id="main-content" className="relative z-10">
         <HeroSection />
-        <AboutSection />
+        <StorySection />
         <ProjectsSection />
         <ContactSection />
       </main>

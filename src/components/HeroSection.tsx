@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Mail, MapPin, Briefcase } from "lucide-react";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown, ArrowUpRight, Mail, MapPin, Briefcase } from "lucide-react";
 import GradientText from "./reactbits/GradientText";
 import Prism from "./reactbits/Prism";
 import TextPressure from "./reactbits/TextPressure";
@@ -17,107 +18,44 @@ const LinkedInMark = () => (
 );
 
 const HeroSection = () => {
+  const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 0.65], [0, -110]);
+  const opacity = useTransform(scrollYProgress, [0.25, 0.62], [1, 0]);
+  const prismScale = useTransform(scrollYProgress, [0, 0.75], [1, 1.28]);
+
   return (
-    <section className="hero-section min-h-screen flex flex-col justify-center px-5 sm:px-6 pt-24 pb-16 relative">
-      <div className="hero-grid" aria-hidden="true" />
-      <div className="max-w-5xl mx-auto w-full relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 32, filter: "blur(12px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ delay: 0.1, duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="hero-name-stage"
-        >
-          <div className="hero-prism-shell">
-            <Prism />
+    <section ref={ref} id="home" className="cinematic-hero">
+      <div className="hero-sticky-stage">
+        <motion.div className="hero-prism-background" style={{ scale: reduced ? 1 : prismScale }}>
+          <Prism animationType="rotate" timeScale={0.5} height={3.5} baseWidth={5.5}
+            scale={3.6} hueShift={0} colorFrequency={1} noise={0.5} glow={1} suspendWhenOffscreen />
+        </motion.div>
+        <div className="hero-cinematic-shade" aria-hidden="true" />
+        <motion.div className="hero-editorial page-width" style={{ y: reduced ? 0 : y, opacity: reduced ? 1 : opacity }}>
+          <motion.p className="hero-kicker" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
+            <span className="hero-status-dot" /> A CURIOUS MIND. A BUILDER AT HEART.
+          </motion.p>
+          <motion.div className="hero-name-stage" initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
+            <TextPressure text="RIITOM MODAK" accentIndex={7} minFontSize={28} />
+          </motion.div>
+          <div className="hero-bottom-grid">
+            <div>
+              <div className="hero-domain-line"><GradientText>AI · MACHINE LEARNING · COMPUTER VISION</GradientText></div>
+              <p className="hero-editorial-intro">Turning curiosity into code.<br />And code into things that matter.</p>
+              <div className="hero-meta"><span><MapPin size={13} /> Kolkata, India</span><span><Briefcase size={13} /> Open to opportunities</span></div>
+              <a className="hero-work-link" href="#projects">Explore my work <ArrowUpRight size={18} /></a>
+            </div>
+            <div className="hero-socials">
+              <a href="https://github.com/Riitom" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub profile"><GitHubMark /></a>
+              <a href="https://www.linkedin.com/in/riitom-modak-b018a131a/" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn profile"><LinkedInMark /></a>
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Email Riitom"><Mail /></a>
+            </div>
           </div>
-          <TextPressure text="RIITOM MODAK" accentIndex={7} minFontSize={46} />
         </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.22, duration: 0.65 }}
-          className="hero-domain-line"
-        >
-          <GradientText>AI · MACHINE LEARNING · COMPUTER VISION</GradientText>
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.32, duration: 0.7 }}
-          className="hero-intro text-lg md:text-xl max-w-2xl mb-9 leading-relaxed"
-        >
-          An aspiring developer building thoughtful AI, machine learning, and computer vision experiences with Python.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.44, duration: 0.7 }}
-          className="flex flex-wrap items-center gap-3 mb-10"
-        >
-          <span className="glass-pill inline-flex items-center gap-2 px-3.5 py-2 text-sm text-muted-foreground">
-            <MapPin className="w-3.5 h-3.5" /> Kolkata
-          </span>
-          <span className="glass-pill glass-pill-active inline-flex items-center gap-2 px-3.5 py-2 text-sm text-primary font-medium">
-            <Briefcase className="w-3.5 h-3.5" />
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            Open to work
-          </span>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.56, duration: 0.7 }}
-          className="flex items-center gap-3"
-        >
-          <a
-            href="https://github.com/Riitom"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link"
-            aria-label="GitHub profile"
-          >
-            <GitHubMark />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/riitom-modak-b018a131a/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link"
-            aria-label="LinkedIn profile"
-          >
-            <LinkedInMark />
-          </a>
-          <a
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link"
-            aria-label="Email Riitom"
-          >
-            <Mail />
-          </a>
-        </motion.div>
+        <div className="hero-bottom-rail page-width"><a href="#about">SCROLL TO DISCOVER <ArrowDown size={14} /></a><span>PORTFOLIO / RIITOM MODAK</span></div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-          className="scroll-cue w-5 h-9 rounded-full flex items-start justify-center pt-2"
-        >
-          <div className="w-1 h-1.5 rounded-full bg-primary" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 };

@@ -14,7 +14,8 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -24,10 +25,11 @@ const Navbar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass-nav glass-nav-scrolled" : "glass-nav"
+        scrolled ? "glass-nav glass-nav-scrolled" : "glass-nav hero-nav"
       }`}
     >
-      <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <div className="page-width nav-inner flex items-center justify-between py-4">
         <a href="#" className="font-heading font-bold text-lg text-foreground hover:text-primary transition-colors">
           riitom<span className="text-primary">.dev</span>
         </a>
@@ -37,6 +39,9 @@ const Navbar = () => {
           </div>
           <ThemeToggle />
         </div>
+      </div>
+      <div className="mobile-nav" aria-label="Section navigation">
+        {navLinks.map(link => <a key={link.href} href={link.href}>{link.label}</a>)}
       </div>
     </motion.nav>
   );

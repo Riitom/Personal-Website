@@ -31,20 +31,18 @@ const ClickSpark = ({
     if (!canvas || !root) return;
 
     const resize = () => {
-      const rect = root.getBoundingClientRect();
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.max(1, Math.round(rect.width * ratio));
-      canvas.height = Math.max(1, Math.round(rect.height * ratio));
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
+      canvas.width = Math.max(1, Math.round(window.innerWidth * ratio));
+      canvas.height = Math.max(1, Math.round(window.innerHeight * ratio));
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
       canvas.getContext("2d")?.setTransform(ratio, 0, 0, ratio, 0, 0);
     };
 
     resize();
-    const observer = new ResizeObserver(resize);
-    observer.observe(root);
+    window.addEventListener("resize", resize);
     return () => {
-      observer.disconnect();
+      window.removeEventListener("resize", resize);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
   }, []);
@@ -95,9 +93,8 @@ const ClickSpark = ({
     const control = target.closest("a, button, [role='button'], input, select, textarea");
     if (!control || control.hasAttribute("disabled")) return;
 
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const x = event.clientX;
+    const y = event.clientY;
     const startedAt = performance.now();
 
     sparksRef.current.push(

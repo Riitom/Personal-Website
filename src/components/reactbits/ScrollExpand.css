@@ -1,0 +1,13 @@
+.scroll-expand { position: relative; width: 100%; }
+.scroll-expand__stage { position: sticky; top: 0; height: 100svh; min-height: 520px; overflow: hidden; background: #06080c; color: #f0f4f2; }
+.scroll-expand__frame { position: absolute; inset: 0; will-change: clip-path; }
+.scroll-expand__media { position: absolute; inset: 0; transform-origin: center; }
+.scroll-expand__scrim { position: absolute; inset: 0; background: linear-gradient(0deg, #06080cbb, #06080c10 75%); }
+.scroll-expand__overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 6%; text-align: center; }
+.scroll-expand__overlay h2 { max-width: 900px; font-size: clamp(2.8rem, 7.2vw, 7rem); line-height: 1.02; letter-spacing: -.06em; font-weight: 500; }
+.scroll-expand__overlay p:last-child { max-width: 30rem; margin-top: 1.5rem; color: #d0d5df; font-size: clamp(1rem, 1.5vw, 1.2rem); }
+.scroll-expand__title { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6%; font-size: clamp(3.1rem, 9vw, 9rem); line-height: .95; letter-spacing: -.075em; font-weight: 500; pointer-events: none; }
+.scroll-expand__hint { position: absolute; bottom: 2rem; width: 100%; text-align: center; font: .7rem var(--font-mono); color: #bdc3d1; }
+.scroll-expand__hint span { display: inline-block; margin-left: 1rem; color: #72edb0; }
+.scroll-expand.is-static .scroll-expand__stage { position: relative; }
+@media (max-width: 700px) { .scroll-expand__stage { min-height: 480px; } }
