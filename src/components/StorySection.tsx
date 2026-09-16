@@ -45,7 +45,7 @@ const StorySection = () => (
           <article key={number} className="story-chapter">
             <div className="story-chapter-label"><Icon size={17} strokeWidth={1.4} /><span>{label}</span><span>{number}</span></div>
             <ScrollWords text={text} />
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.7 }}>
+            <motion.div initial={{ opacity: 0.5 }} whileInView={{ opacity: 1 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.7 }}>
               <p className="story-detail">{detail}</p>
               <div className="story-tags">{tags.map(tag => <span key={tag}>{tag}</span>)}</div>
             </motion.div>

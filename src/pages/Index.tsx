@@ -7,9 +7,11 @@ import Footer from "@/components/Footer";
 import LiquidBackdrop from "@/components/LiquidBackdrop";
 import ClickSpark from "@/components/reactbits/ClickSpark";
 import GradualBlur from "@/components/reactbits/GradualBlur";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const Index = () => (
   <ClickSpark>
+    <SmoothScroll />
     <div className="site-shell min-h-screen text-foreground transition-colors duration-500">
       <LiquidBackdrop />
       <GradualBlur

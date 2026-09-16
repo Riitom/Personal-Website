@@ -6,15 +6,10 @@ type TextPressureProps = {
   minFontSize?: number;
 };
 
-const distance = (a: { x: number; y: number }, b: { x: number; y: number }) =>
-  Math.hypot(a.x - b.x, a.y - b.y);
-
 const TextPressure = ({ text, accentIndex = text.length + 1, minFontSize = 48 }: TextPressureProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const characterRefs = useRef<Array<HTMLSpanElement | null>>([]);
-  const pointerRef = useRef({ x: 0, y: 0 });
-  const cursorRef = useRef({ x: 0, y: 0 });
   const [fontSize, setFontSize] = useState(minFontSize);
 
   useEffect(() => {
@@ -25,9 +20,6 @@ const TextPressure = ({ text, accentIndex = text.length + 1, minFontSize = 48 }:
     const resize = () => {
       const width = container.clientWidth;
       setFontSize(Math.max(minFontSize, Math.min(width / (text.length * 0.49), 164)));
-      const rect = title.getBoundingClientRect();
-      pointerRef.current = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-      cursorRef.current = pointerRef.current;
     };
     resize();
 
@@ -41,47 +33,66 @@ const TextPressure = ({ text, accentIndex = text.length + 1, minFontSize = 48 }:
   }, [minFontSize, text.length]);
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const onPointerMove = (event: PointerEvent) => {
-      cursorRef.current = { x: event.clientX, y: event.clientY };
-    };
-    const onPointerLeave = () => {
-      const rect = titleRef.current?.getBoundingClientRect();
-      if (rect) cursorRef.current = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-    };
-
-    if (!reduceMotion) {
-      window.addEventListener("pointermove", onPointerMove);
-      document.documentElement.addEventListener("pointerleave", onPointerLeave);
-    }
-
+    const title = titleRef.current;
+    const container = containerRef.current;
+    if (!title || !container) return;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)");
+    const characters = characterRefs.current.filter((character): character is HTMLSpanElement => character !== null);
+    let width = title.getBoundingClientRect().width;
+    const pointer = { x: width / 2, y: 0 };
+    let target = { ...pointer };
+    let visible = false;
     let frame = 0;
     const animate = () => {
-      pointerRef.current.x += (cursorRef.current.x - pointerRef.current.x) * 0.13;
-      pointerRef.current.y += (cursorRef.current.y - pointerRef.current.y) * 0.13;
-      const titleRect = titleRef.current?.getBoundingClientRect();
-      const maxDistance = Math.max(titleRect?.width ?? 1, 1) * 0.48;
-
-      characterRefs.current.forEach((character) => {
-        if (!character) return;
-        const rect = character.getBoundingClientRect();
-        const center = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-        const proximity = Math.max(0, 1 - distance(pointerRef.current, center) / maxDistance);
+      frame = 0;
+      if (!visible || preference.matches) return;
+      pointer.x += (target.x - pointer.x) * 0.18;
+      pointer.y += (target.y - pointer.y) * 0.18;
+      // Stable slots avoid read/write layout thrashing as the font changes width.
+      characters.forEach((character, index) => {
+        const center = width * (index + 0.5) / characters.length;
+        const proximity = Math.max(0, 1 - Math.hypot(pointer.x - center, pointer.y) / Math.max(width * 0.48, 1));
         const weight = Math.round(360 + proximity * 540);
-        const width = Math.round(82 + proximity * 60);
-        character.style.fontVariationSettings = `'wght' ${weight}, 'wdth' ${width}, 'opsz' 144`;
+        const stretch = Math.round(82 + proximity * 60);
+        character.style.fontVariationSettings = `'wght' ${weight}, 'wdth' ${stretch}, 'opsz' 144`;
         character.style.transform = `translateY(${-proximity * 4}px)`;
       });
-      frame = requestAnimationFrame(animate);
+      if (Math.hypot(target.x - pointer.x, target.y - pointer.y) > 0.1) frame = requestAnimationFrame(animate);
     };
-    frame = requestAnimationFrame(animate);
+    const wake = () => { if (!frame && visible && !preference.matches) frame = requestAnimationFrame(animate); };
+    const move = (event: PointerEvent) => {
+      const rect = title.getBoundingClientRect();
+      target = { x: event.clientX - rect.left, y: event.clientY - rect.top - rect.height / 2 };
+      wake();
+    };
+    const reset = () => { target = { x: width / 2, y: 0 }; wake(); };
+    const resize = new ResizeObserver(() => { width = container.clientWidth; reset(); });
+    resize.observe(container);
+    const intersection = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) wake();
+      else { cancelAnimationFrame(frame); frame = 0; }
+    });
+    intersection.observe(container);
+    const changePreference = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      characters.forEach(character => { character.style.fontVariationSettings = ""; character.style.transform = ""; });
+      wake();
+    };
+    container.addEventListener("pointermove", move);
+    container.addEventListener("pointerleave", reset);
+    preference.addEventListener("change", changePreference);
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("pointermove", onPointerMove);
-      document.documentElement.removeEventListener("pointerleave", onPointerLeave);
+      resize.disconnect();
+      intersection.disconnect();
+      container.removeEventListener("pointermove", move);
+      container.removeEventListener("pointerleave", reset);
+      preference.removeEventListener("change", changePreference);
     };
-  }, []);
+  }, [text]);
 
   return (
     <div ref={containerRef} className="text-pressure-wrap">

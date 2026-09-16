@@ -1,196 +1,132 @@
 # Riitom Modak — Personal Portfolio
 
-A modern, responsive portfolio built to present my background, technical skills, and selected projects in a polished interactive experience. The current design uses a liquid-glass visual system, lightweight 3D motion, and React Bits-inspired interactions while keeping the content focused on AI, machine learning, computer vision, and Python development.
+A scroll-led portfolio exploring my background, interests and work in Python, AI, machine learning and computer vision. Built with React and TypeScript, with a pitch-black dark theme, mint accents and restrained liquid-glass details.
 
-## Repository Description
+## Repository description
 
-> A liquid-glass React portfolio with 3D motion, interactive React Bits effects, and AI/ML-focused projects.
+> A cinematic React portfolio with a WebGL Prism, scroll-driven project stories, technical system diagrams and accessible motion.
 
-## Highlights
+## The experience
 
-- Liquid-glass interface with translucent panels, soft reflections, and a lighter green accent system
-- Interactive `RIITOM MODAK` hero title with variable-font pressure effects
-- Animated WebGL prism accent powered by OGL
-- Gooey navigation with fluid active-state particles
-- Compact 3D skill cards with cursor-responsive tilt, spotlight, and depth
-- Project cards with pointer-tracking border glow
-- Word-by-word scroll reveals and a smooth page progress indicator
-- Click sparks on links, buttons, and other interactive controls
-- Responsive layouts for desktop, tablet, and mobile screens
-- Light and dark themes with saved theme preference
-- Reduced-motion support for visitors who prefer fewer animations
-- Direct GitHub, LinkedIn, email, and project links
+- **Opening scene:** a full-screen, low-grain React Bits Prism behind the interactive `RIITOM MODAK` variable-font title. It scrolls away with the page, without a pinned hold, release jump or simultaneous canvas zoom. Official GitHub and LinkedIn marks link to my profiles.
+- **The person:** three reading-paced chapters covering my CSE background, Python/AI direction, and interests in photography, cars, motorcycles and engineering.
+- **The workbench:** compact skill cards retain their hover tilt, spotlight and rounded glass treatment.
+- **Ideas into impact:** a scroll-expanding frame introduces the projects. The background R progressively blurs and fades to keep the typography readable.
+- **Selected work:** each project opens with a question and a horizontal title reveal, then unfolds through three stages. Its architecture diagram uses a gliding stage highlight, animated input-to-output signals, drawn connectors and a scroll-linked progress rail. The typography stays fixed as explanations crossfade. These are explanatory animations, not live metrics or generated project imagery.
+- **The next chapter:** an open, full-width typographic contact section continues the narrative, with email and social links instead of a separate glass card.
 
-## React Bits-Inspired Effects
+Dark mode uses a true black page background with the colorful Prism and small project accents. Light mode and saved theme preference remain available.
 
-The redesign adapts selected React Bits concepts to the existing TypeScript and Framer Motion architecture:
+## Featured projects
 
-| Effect | Usage |
-| --- | --- |
-| TextPressure | Interactive hero name |
-| GradientText | AI and ML focus line |
-| Prism | WebGL hero artwork |
-| GooeyNav | Desktop navigation |
-| MagicBento | 3D skill-card interactions |
-| BorderGlow | Project-card edge lighting |
-| ScrollReveal | About-section text animation |
-| ClickSpark | Feedback for clickable controls |
+### 1. AI-Assisted Scrap Detection & Weight Estimation
 
-The components were adapted to match this portfolio's green design system, accessibility preferences, and responsive behavior.
+An inspection workflow that separates YOLO26x material detection from geometric weight estimation. The FastAPI/React application keeps inspection evidence and results in SQLite for review and reruns.
 
-## Tech Stack
+Weight is an estimate based on area, fill ratio, thickness and material density—not a measurement obtained directly from the detector. Reliable estimates require calibration.
 
-- React 19
-- TypeScript
-- Vite
-- Tailwind CSS
-- Framer Motion
-- OGL
-- Lucide React
-- React Router
-- ESLint
+[Project repository](https://github.com/Riitom/AI-Assisted-Scrap-Detection-And-Weight-Estimation)
 
-## Website Sections
+### 2. BORDER-SENSE AI
 
-### Hero
+An MVP combining YOLO26x detection, ByteTrack tracking, DA-V2 Base relative depth, short-horizon trajectories and configured zones. Its event and policy layers support human review; the portfolio does not represent it as autonomous enforcement or a metric-distance system.
 
-Introduces Riitom Modak with an interactive variable-font title, an AI/ML-focused summary, availability information, official social logos, and a subtle WebGL prism.
+[Project repository](https://github.com/Riitom/Border-Sense)
 
-### About and Skills
+### 3. ESP32 Smart Thermal Controller
 
-Describes my background as a B.Tech Computer Science and Engineering student and presents my frontend, backend, programming-language, and development-tool skills in compact 3D cards.
+A research and system-design project based on the supplied `Smart_Thermal_Controller_Technical_Report.md` PRD. The proposed architecture combines SHT35/DHT11 environmental readings, PIR and LD2410 mmWave occupancy sensing, and measured power/energy data.
 
-### Projects
+Python training runs on a PC; compact inference on the ESP32 recommends a temperature target. A constrained deterministic controller owns AC, fan and heater actuation, including dwell times and fault handling. The portfolio labels evaluation as planned and does not claim measured energy savings, comfort results or a completed hardware deployment.
 
-The portfolio currently presents:
+No public repository has been supplied for this project, so its call to action opens Contact. This is an **ESP32** design, not the previous Raspberry Pi description.
 
-1. **AI-Assisted Scrap Detection And Weight Estimation**
+Project descriptions are maintained in `src/data/projects.ts`. Architecture summaries are in `src/components/ProjectVisual.tsx`. The scrap and BORDER-SENSE descriptions were checked against their repository documentation; the thermal description follows the supplied report. The diagrams explain documented or proposed workflows and are not screenshots of running applications.
 
-   A YOLO, FastAPI, and React-based inspection system for material detection, estimated weight ranges, and auditable inspection history.
+## Motion and accessibility
 
-   Repository: [AI-Assisted Scrap Detection And Weight Estimation](https://github.com/Riitom/AI-Assisted-Scrap-Detection-And-Weight-Estimation)
+- Lenis smooths wheel input on the native document scroller. Framer Motion reads the same animation clock; there is no nested scroll container, scroll snapping or forced chapter advance.
+- Touch scrolling stays native. Keyboard navigation can interrupt wheel inertia. Section links retain URL hashes and move keyboard focus to their destinations.
+- Reduced-motion preferences disable wheel smoothing, unpin the long scenes and reveal text immediately. Preference changes are handled while the page is open.
+- Project narrative text stays in place while its emphasis and a progress rule change continuously. A small stage-change dead band avoids flicker near a boundary.
+- The name effect runs only during hover easing while visible, with no per-character layout reads in its animation loop. It is disabled for coarse pointers and reduced motion.
+- Prism rendering pauses outside the viewport and in hidden tabs; its drawing buffer is capped at 1.5 million pixels to limit high-DPI rendering cost. Resizing and live reduced-motion changes redraw correctly. The background and content remain usable without WebGL.
+- Diagram signal animations pause off-screen and are disabled with reduced motion. Stage changes do not resize the text layout.
+- ClickSpark responds to interactive controls, uses a viewport-sized canvas and stops drawing when the sparks finish.
+- A skip link, descriptive link labels and visible keyboard focus states remain available.
 
-2. **Project Beta — Personal Website**
+## Stack
 
-   This responsive liquid-glass portfolio, built with React, TypeScript, Tailwind CSS, Framer Motion, and OGL.
+React 19 · TypeScript · Vite · Tailwind CSS · Framer Motion · Lenis · OGL · Lucide React · React Router
 
-   Repository: [Personal Website](https://github.com/Riitom/Personal-Website)
+The effects adapt concepts from [React Bits](https://www.reactbits.dev/): Prism, TextPressure, GradientText, GooeyNav, MagicBento, ScrollExpand, ScrollReveal, ClickSpark and GradualBlur. [Lenis](https://github.com/darkroomengineering/lenis) handles wheel interpolation.
 
-3. **Project Gamma — Home Temperature Monitor**
+## Local development
 
-   A smart room-temperature monitoring and control concept using Python, Raspberry Pi, TensorFlow, and machine learning.
-
-### Contact
-
-Provides direct ways to connect through email, GitHub, and LinkedIn.
-
-## Project Structure
-
-```text
-Personal-Website/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   ├── reactbits/
-│   │   │   ├── BorderGlow.tsx
-│   │   │   ├── ClickSpark.tsx
-│   │   │   ├── GooeyNav.tsx
-│   │   │   ├── GradientText.tsx
-│   │   │   ├── Prism.tsx
-│   │   │   ├── ScrollReveal.tsx
-│   │   │   ├── SkillBento.tsx
-│   │   │   └── TextPressure.tsx
-│   │   ├── AboutSection.tsx
-│   │   ├── ContactSection.tsx
-│   │   ├── HeroSection.tsx
-│   │   ├── LiquidBackdrop.tsx
-│   │   ├── Navbar.tsx
-│   │   └── ProjectsSection.tsx
-│   ├── pages/
-│   ├── index.css
-│   └── main.tsx
-├── package.json
-└── vite.config.ts
-```
-
-## Getting Started
-
-### Requirements
-
-- Node.js 20 or newer
-- npm
-
-### Installation
-
-Clone the repository and install its dependencies:
+Use Node.js 22.12 or newer and npm.
 
 ```sh
 git clone https://github.com/Riitom/Personal-Website.git
 cd Personal-Website
-npm install
-```
-
-Start the local development server:
-
-```sh
+npm ci
 npm run dev
 ```
 
-Vite will print the local address in the terminal, normally `http://localhost:5173`.
-
-## Available Commands
+Open the local address printed by Vite. On Windows, use `npm.cmd` if PowerShell blocks the npm script shim.
 
 | Command | Purpose |
 | --- | --- |
-| `npm run dev` | Start the Vite development server |
-| `npm run build` | Create an optimized production build |
-| `npm run build:dev` | Create a development-mode build |
-| `npm run preview` | Preview the production build locally |
-| `npm run lint` | Run ESLint across the project |
-| `npx tsc --noEmit` | Run the TypeScript type-check |
+| `npm run dev` | Start development server |
+| `npm run lint` | Check source with ESLint |
+| `npm run typecheck` | Type-check both application and build configuration |
+| `npm run build` | Build production assets into `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run test:e2e` | Run isolated Chrome browser checks |
 
 ## Verification
 
-Before changes are published, the project is checked with:
-
 ```sh
 npm run lint
-npx tsc --noEmit
+npm run typecheck
 npm run build
+npm run test:e2e
 npm audit
+git diff --check
 ```
 
-The major liquid-glass update passes linting, TypeScript validation, and the production build. The dependency audit reports no known vulnerabilities at the time of this update.
+The Playwright configuration uses locally installed Google Chrome, starts its own Vite server on port 4173, and covers desktop, mobile and reduced-motion layouts. Tests check runtime errors, project links, overflow, expanding-frame geometry, R-logo blur, contact navigation and small wheel input. Screenshots and failure traces are written to ignored `test-results/` output. Automated checks do not guarantee identical performance on every physical device.
 
-## Accessibility and Performance
+## Main files
 
-- Decorative canvases are excluded from the accessibility tree.
-- Social links include descriptive labels and use safe external-link attributes.
-- Motion-heavy effects respect the `prefers-reduced-motion` setting.
-- WebGL rendering pauses when the prism is outside the viewport.
-- ClickSpark renders only while sparks are active and responds only to interactive controls.
-- Layouts and typography adapt to smaller screens without requiring horizontal scrolling.
+```text
+src/
+  components/
+    HeroSection.tsx       # Prism and interactive name
+    StorySection.tsx      # Personal story and compact skills
+    ProjectsSection.tsx   # Expanding introduction and project chapters
+    ProjectVisual.tsx     # Scroll-linked technical architecture diagrams
+    ContactSection.tsx    # Closing chapter
+    SmoothScroll.tsx      # Shared scrolling and accessible anchors
+    reactbits/            # Adapted interaction components
+  data/projects.ts        # Project content and evidence boundaries
+  cinematic.css           # Narrative layout and responsive theme
+  index.css               # Base theme and glass interaction styles
+tests/portfolio.spec.ts    # Browser regression checks
+```
 
 ## Deployment
 
-The website produces a static Vite build and can be deployed to services such as Vercel, Netlify, or Cloudflare Pages.
-
-Recommended settings:
+The app produces static assets. Keep the existing hosting setup and use:
 
 ```text
 Build command: npm run build
 Output directory: dist
 ```
 
-If the deployment platform does not automatically support single-page applications, configure a fallback rewrite to `index.html`.
+Configure an `index.html` fallback if the hosting platform needs one for client-side routes. Building locally does not publish changes; deployment and GitHub pushes are separate steps.
 
 ## Contact
 
-- GitHub: [github.com/Riitom](https://github.com/Riitom)
-- LinkedIn: [linkedin.com/in/riitom-modak-b018a131a](https://www.linkedin.com/in/riitom-modak-b018a131a/)
-- Email: [riitom09@gmail.com](mailto:riitom09@gmail.com)
-
-## Acknowledgements
-
-Interaction concepts were inspired by [React Bits](https://www.reactbits.dev/) and adapted for this portfolio's design system and TypeScript architecture.
+- [GitHub](https://github.com/Riitom)
+- [LinkedIn](https://www.linkedin.com/in/riitom-modak-b018a131a/)
+- [riitom09@gmail.com](mailto:riitom09@gmail.com)

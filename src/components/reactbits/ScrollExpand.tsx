@@ -1,5 +1,6 @@
 import { useRef, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useTransform } from "framer-motion";
+import { useSceneScroll as useScroll } from "@/hooks/useSceneScroll";
 import "./ScrollExpand.css";
 
 type ScrollExpandProps = {
@@ -16,7 +17,7 @@ type ScrollExpandProps = {
 };
 
 // The supplied React Bits frame expansion, adapted to native window scrolling
-// and the existing Framer Motion runtime. No nested scroller or wheel interception.
+// and the existing Framer Motion runtime. Follows the shared page-scroll clock.
 const ScrollExpand = ({
   media, children, title, scrollHint = "Keep scrolling to open",
   startWidth = 56, startHeight = 58, startRadius = 32, endRadius = 0,
@@ -25,7 +26,7 @@ const ScrollExpand = ({
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const smooth = useSpring(scrollYProgress, { stiffness: 150, damping: 32, mass: 0.25 });
+  const smooth = scrollYProgress;
   const expansionEnd = scrollDistance / (scrollDistance + holdDistance);
   const clipPath = useTransform(smooth, (value) => {
     const progress = Math.min(1, Math.max(0, value / expansionEnd));
@@ -41,13 +42,18 @@ const ScrollExpand = ({
   const overlayOpacity = useTransform(smooth, [expansionEnd * 0.65, expansionEnd], [0, 1]);
   const overlayY = useTransform(smooth, [expansionEnd * 0.65, expansionEnd], [28, 0]);
   const hintOpacity = useTransform(smooth, [0, 0.15], [1, 0]);
+  const logoBlur = useTransform(smooth, [0, expansionEnd * 0.85], ["blur(4px)", "blur(24px)"]);
+  const logoOpacity = useTransform(smooth, [0, expansionEnd * 0.85], [0.5, 0.1]);
 
   return (
     <div ref={ref} className={`scroll-expand ${reduced ? "is-static" : ""}`}
       style={{ minHeight: reduced ? undefined : `${(1 + scrollDistance + holdDistance) * 100}svh` }}>
       <div className="scroll-expand__stage">
         <motion.div className="scroll-expand__frame" style={{ clipPath: reduced ? "none" : clipPath }}>
-          <motion.div className="scroll-expand__media" style={{ scale: reduced ? 1 : scale }}>{media}</motion.div>
+          <motion.div className="scroll-expand__media" style={{ scale: reduced ? 1 : scale,
+            "--logo-blur": reduced ? "blur(24px)" : logoBlur,
+            "--logo-opacity": reduced ? 0.1 : logoOpacity,
+          } as import("framer-motion").MotionStyle}>{media}</motion.div>
           <div className="scroll-expand__scrim" />
           <motion.div className="scroll-expand__overlay" style={{ opacity: reduced ? 1 : overlayOpacity, y: reduced ? 0 : overlayY }}>
             {children}

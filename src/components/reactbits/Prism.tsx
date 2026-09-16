@@ -7,6 +7,7 @@ type PrismProps = {
   glow?: number; offset?: { x?: number; y?: number }; noise?: number; transparent?: boolean;
   scale?: number; hueShift?: number; colorFrequency?: number; hoverStrength?: number;
   inertia?: number; bloom?: number; suspendWhenOffscreen?: boolean; timeScale?: number; lightMode?: boolean;
+  maxDpr?: number; maxPixels?: number;
 };
 
 const Prism = ({
@@ -25,7 +26,9 @@ const Prism = ({
   bloom = 1,
   suspendWhenOffscreen = false,
   timeScale = 0.5,
-  lightMode = false
+  lightMode = false,
+  maxDpr = 1.5,
+  maxPixels = 1500000,
 }: PrismProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -48,12 +51,13 @@ const Prism = ({
     const RSX = 1;
     const RSY = 1;
     const RSZ = 1;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const TS = reducedMotion ? 0 : Math.max(0, timeScale);
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let reducedMotion = motionPreference.matches;
+    const TS = Math.max(0, timeScale);
     const HOVSTR = Math.max(0, hoverStrength || 1);
     const INERT = Math.max(0, Math.min(1, inertia || 0.12));
 
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const dpr = Math.min(Math.max(0.1, maxDpr), window.devicePixelRatio || 1);
     let renderer: Renderer;
     try {
       renderer = new Renderer({ dpr, alpha: transparent, antialias: false });
@@ -236,7 +240,7 @@ const Prism = ({
         uPxScale: {
           value: 1 / ((gl.drawingBufferHeight || 1) * 0.1 * SCALE)
         },
-        uTimeScale: { value: TS },
+        uTimeScale: { value: reducedMotion ? 0 : TS },
         uLightMode: { value: lightMode ? 1.0 : 0.0 }
       }
     });
@@ -245,17 +249,15 @@ const Prism = ({
     const resize = () => {
       const w = container.clientWidth || 1;
       const h = container.clientHeight || 1;
+      // The soft raymarched artwork does not need a retina-sized framebuffer.
+      renderer.dpr = Math.min(dpr, Math.sqrt(Math.max(1, maxPixels) / (w * h)));
       renderer.setSize(w, h);
       iResBuf[0] = gl.drawingBufferWidth;
       iResBuf[1] = gl.drawingBufferHeight;
-      offsetPxBuf[0] = offX * dpr;
-      offsetPxBuf[1] = offY * dpr;
+      offsetPxBuf[0] = offX * renderer.dpr;
+      offsetPxBuf[1] = offY * renderer.dpr;
       program.uniforms.uPxScale.value = 1 / ((gl.drawingBufferHeight || 1) * 0.1 * SCALE);
     };
-    const ro = new ResizeObserver(resize);
-    ro.observe(container);
-    resize();
-
     const rotBuf = new Float32Array(9);
     const setMat3FromEuler = (yawY: number, pitchX: number, rollZ: number, out: Float32Array) => {
       const cy = Math.cos(yawY),
@@ -290,15 +292,17 @@ const Prism = ({
 
     const NOISE_IS_ZERO = NOISE < 1e-6;
     let raf = 0;
-    const t0 = performance.now();
+    let visible = !suspendWhenOffscreen;
+    let lastTime: number | undefined;
+    let elapsed = 0;
     const startRAF = () => {
-      if (raf) return;
+      if (raf || !visible || document.hidden) return;
       raf = requestAnimationFrame(render);
     };
     const stopRAF = () => {
-      if (!raf) return;
       cancelAnimationFrame(raf);
       raf = 0;
+      lastTime = undefined;
     };
 
     const rnd = () => Math.random();
@@ -351,7 +355,9 @@ const Prism = ({
     }
 
     const render = (t: number) => {
-      const time = reducedMotion ? 0 : (t - t0) * 0.001;
+      if (lastTime !== undefined) elapsed += (t - lastTime) * 0.001;
+      lastTime = t;
+      const time = reducedMotion ? 0 : elapsed;
       program.uniforms.iTime.value = time;
 
       let continueRAF = !reducedMotion;
@@ -400,14 +406,27 @@ const Prism = ({
         raf = requestAnimationFrame(render);
       } else {
         raf = 0;
+        lastTime = undefined;
       }
     };
 
+    const ro = new ResizeObserver(() => { resize(); startRAF(); });
+    ro.observe(container);
+    resize();
+    const onVisibility = () => { if (document.hidden) stopRAF(); else startRAF(); };
+    const onMotionPreference = () => {
+      reducedMotion = motionPreference.matches;
+      program.uniforms.uTimeScale.value = reducedMotion ? 0 : TS;
+      stopRAF();
+      startRAF();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    motionPreference.addEventListener('change', onMotionPreference);
     let io: IntersectionObserver | undefined;
     if (suspendWhenOffscreen) {
       io = new IntersectionObserver(entries => {
-        const vis = entries.some(e => e.isIntersecting);
-        if (vis) startRAF();
+        visible = entries.some(e => e.isIntersecting);
+        if (visible) startRAF();
         else stopRAF();
       });
       io.observe(container);
@@ -419,6 +438,8 @@ const Prism = ({
     return () => {
       stopRAF();
       ro.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+      motionPreference.removeEventListener('change', onMotionPreference);
       if (animationType === 'hover') {
         if (onPointerMove) window.removeEventListener('pointermove', onPointerMove);
         window.removeEventListener('mouseleave', onLeave);
@@ -447,7 +468,9 @@ const Prism = ({
     inertia,
     bloom,
     suspendWhenOffscreen,
-    lightMode
+    lightMode,
+    maxDpr,
+    maxPixels,
   ]);
 
   return <div className="prism-container" ref={containerRef} aria-hidden="true" />;

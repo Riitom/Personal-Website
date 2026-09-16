@@ -29,6 +29,28 @@ const GooeyNav = ({ items }: GooeyNavProps) => {
     return () => observer.disconnect();
   }, [activeIndex]);
 
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      let current = 0;
+      items.forEach((item, index) => {
+        const section = document.querySelector(item.href);
+        if (section && section.getBoundingClientRect().top <= window.innerHeight * 0.4) current = index;
+      });
+      setActiveIndex(current);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [items]);
+
   const releaseParticles = () => {
     const host = particleRef.current;
     if (!host || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -57,6 +79,7 @@ const GooeyNav = ({ items }: GooeyNavProps) => {
           <a
             key={item.href}
             href={item.href}
+            aria-current={activeIndex === index ? "location" : undefined}
             className={activeIndex === index ? "is-active" : ""}
             onClick={() => {
               setActiveIndex(index);

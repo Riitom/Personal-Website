@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useTransform } from "framer-motion";
+import { useSceneScroll as useScroll } from "@/hooks/useSceneScroll";
 import { ArrowDown, ArrowUpRight, Mail, MapPin, Briefcase } from "lucide-react";
 import GradientText from "./reactbits/GradientText";
 import Prism from "./reactbits/Prism";
@@ -21,19 +22,18 @@ const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 0.65], [0, -110]);
-  const opacity = useTransform(scrollYProgress, [0.25, 0.62], [1, 0]);
-  const prismScale = useTransform(scrollYProgress, [0, 0.75], [1, 1.28]);
+  const opacity = useTransform(scrollYProgress, [0.08, 0.8], [1, 0]);
 
   return (
     <section ref={ref} id="home" className="cinematic-hero">
       <div className="hero-sticky-stage">
-        <motion.div className="hero-prism-background" style={{ scale: reduced ? 1 : prismScale }}>
+        <div className="hero-prism-background">
           <Prism animationType="rotate" timeScale={0.5} height={3.5} baseWidth={5.5}
-            scale={3.6} hueShift={0} colorFrequency={1} noise={0.5} glow={1} suspendWhenOffscreen />
-        </motion.div>
+            scale={3.6} hueShift={0} colorFrequency={1} noise={0.012} glow={1}
+            maxDpr={1.5} maxPixels={1500000} suspendWhenOffscreen />
+        </div>
         <div className="hero-cinematic-shade" aria-hidden="true" />
-        <motion.div className="hero-editorial page-width" style={{ y: reduced ? 0 : y, opacity: reduced ? 1 : opacity }}>
+        <motion.div className="hero-editorial page-width" style={{ opacity: reduced ? 1 : opacity }}>
           <motion.p className="hero-kicker" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
             <span className="hero-status-dot" /> A CURIOUS MIND. A BUILDER AT HEART.
           </motion.p>

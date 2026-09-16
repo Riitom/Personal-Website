@@ -30,7 +30,7 @@ const Navbar = () => {
     >
       <a className="skip-link" href="#main-content">Skip to content</a>
       <div className="page-width nav-inner flex items-center justify-between py-4">
-        <a href="#" className="font-heading font-bold text-lg text-foreground hover:text-primary transition-colors">
+        <a href="#home" className="font-heading font-bold text-lg text-foreground hover:text-primary transition-colors">
           riitom<span className="text-primary">.dev</span>
         </a>
         <div className="flex items-center gap-6">

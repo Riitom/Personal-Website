@@ -1,9 +1,11 @@
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { motion, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
+import { useSceneScroll as useScroll } from "@/hooks/useSceneScroll";
 
 const Word = ({ word, index, count, progress }: { word: string; index: number; count: number; progress: MotionValue<number> }) => {
   const reduced = useReducedMotion();
-  const opacity = useTransform(progress, [index / count, Math.min(1, (index + 1.8) / count)], [0.25, 1]);
+  const start = index / count * 0.75;
+  const opacity = useTransform(progress, [start, start + 0.25], [0.32, 1]);
   return <motion.span aria-hidden="true" style={{ opacity: reduced ? 1 : opacity }}>{word}{" "}</motion.span>;
 };
 

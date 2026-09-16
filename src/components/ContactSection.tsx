@@ -1,55 +1,28 @@
-import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
+import { useRef } from "react";
+import { motion, useReducedMotion, useTransform } from "framer-motion";
+import { useSceneScroll as useScroll } from "@/hooks/useSceneScroll";
+import { ArrowUpRight } from "lucide-react";
 
-const ContactSection = () => (
-  <section id="contact" className="py-12 md:py-16 px-5 sm:px-6 section-wrap">
-    <div className="max-w-5xl mx-auto glass-panel contact-panel text-center">
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="section-label mb-3"
-      >
-        // contact
-      </motion.p>
-
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1 }}
-        className="text-3xl md:text-4xl font-bold font-heading mb-4"
-      >
-        Let's work together.
-      </motion.h2>
-
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-        className="text-muted-foreground text-lg mb-8 max-w-md mx-auto"
-      >
-        Feel free to reach out if you'd like to collaborate or just say hello.
-      </motion.p>
-
-      <motion.a
-        href="https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com"
-        target="_blank"
-        rel="noreferrer"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.98 }}
-        className="liquid-button inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold"
-      >
-        <Mail className="w-4 h-4" />
-        Mail me
-      </motion.a>
-    </div>
-  </section>
-);
+const ContactSection = () => {
+  const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 90%", "start 10%"] });
+  const reveal = useTransform(scrollYProgress, [0.15, 0.85], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]);
+  return (
+    <section ref={ref} id="contact" className="contact-chapter section-wrap">
+      <div className="contact-stage page-width">
+        <div className="contact-opening"><p className="eyebrow">03 / THE NEXT CHAPTER</p><span>GOOD THINGS START WITH A CONVERSATION.</span></div>
+        <h2 className="contact-title">The next idea.<br /><span className="contact-title-reveal"><span aria-hidden="true">Let’s build it.</span><motion.em style={{ clipPath: reduced ? "none" : reveal }}>Let’s build it.</motion.em></span></h2>
+        <div className="contact-bottom">
+          <div><p className="contact-intro">An interesting problem. A product worth building. Or a shared curiosity about AI and what comes next.</p><p className="contact-availability">Open to opportunities, collaborations and conversations.</p></div>
+          <div className="contact-links">
+            <a className="contact-email" href="https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com" target="_blank" rel="noopener noreferrer"><span>Start a conversation<small>riitom09@gmail.com</small></span><ArrowUpRight size={28} aria-hidden="true" /></a>
+            <div className="contact-elsewhere"><a href="https://github.com/Riitom" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a><a href="https://www.linkedin.com/in/riitom-modak-b018a131a/" target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default ContactSection;
