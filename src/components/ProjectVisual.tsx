@@ -1,7 +1,7 @@
-import { useRef } from "react";
-import { motion, useInView, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import type { Project } from "@/data/projects";
+import { useRef, useState } from "react";
+import { motion, useInView, useMotionValueEvent, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
+import { projects, type Project } from "@/data/projects";
+import ProjectDemo from "./ProjectDemo";
 
 const architectures = {
   scrap: {
@@ -31,6 +31,15 @@ const architectures = {
     ],
     note: "Proposed architecture · research & system design",
   },
+  quantum: {
+    title: "From learned guidance to an exact route", input: "ROADS / BATTERY STATE",
+    stages: [
+      { name: "Model the journey", tech: "OSM / BATTERY GRAPH", input: "Roads + battery + charger state", output: "Current routing problem", detail: "Real Kolkata road topology supports an implicit battery-state graph. Stations, traffic, queues and disruptions are simulated." },
+      { name: "Guide exact search", tech: "14-QUBIT HQNN / BI-A*", input: "Calibrated learned potential", output: "Feasible snapshot route", detail: "A simulated hybrid QNN proposes guidance. Consistency calibration constrains it before exact search; replanning preserves the traveled prefix." },
+      { name: "Evaluate fairly", tech: "DIJKSTRA / BI-A* / HQNN", input: "Shared held-out scenarios", output: "Audited comparisons", detail: "The planned comparison reports inference, calibration and search costs separately from simulated trip metrics. Full benchmark results remain pending." },
+    ],
+    note: "In-progress research · no established quantum advantage",
+  },
 };
 
 type ArchitectureStage = (typeof architectures)["scrap"]["stages"][number];
@@ -41,20 +50,19 @@ const StageProgress = ({ progress, index }: { progress: MotionValue<number>; ind
   return <span className="architecture-progress-track"><motion.span style={{ scaleX: reduced ? 1 : fill }} /></span>;
 };
 
-const DiagramStage = ({ stage, index, active, projectId, progress }: {
-  stage: ArchitectureStage; index: number; active: boolean; projectId: string; progress: MotionValue<number>;
+const DiagramStage = ({ stage, index, active, projectId, progress, onSelect }: {
+  stage: ArchitectureStage; index: number; active: boolean; projectId: string; progress: MotionValue<number>; onSelect: () => void;
 }) => {
   const reduced = useReducedMotion();
-  const connection = useTransform(progress, [(index + 0.65) / 3, (index + 1) / 3], [0, 1]);
   return (
     <li className={active ? "architecture-node is-current" : "architecture-node"}>
       {active && <motion.span className="architecture-focus" aria-hidden="true"
         layoutId={reduced ? undefined : `${projectId}-stage-focus`}
         transition={{ duration: reduced ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }} />}
-      <div className="architecture-node-heading"><span className="architecture-number">0{index + 1}</span><h5>{stage.name}</h5><ArrowRight size={15} aria-hidden="true" /></div>
-      <p className="architecture-tech">{stage.tech}</p>
-      <div className="architecture-io"><span>{stage.input}</span><span className="architecture-signal" aria-hidden="true"><i className="architecture-packet" /></span><strong>{stage.output}</strong></div>
-      {index < 2 && <span className="architecture-connector" aria-hidden="true"><motion.i style={{ scaleY: reduced ? 1 : connection }} /></span>}
+      <button type="button" className="architecture-stage-button" aria-pressed={active} aria-label={`Explore stage ${index + 1}: ${stage.name}`} onClick={onSelect}>
+        <span className="architecture-number">0{index + 1}</span><span className="architecture-stage-name">{stage.name}</span>
+        <StageProgress progress={progress} index={index} />
+      </button>
     </li>
   );
 };
@@ -64,16 +72,19 @@ const ProjectVisual = ({ project, step, progress }: { project: Project; step: nu
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { amount: 0.1 });
   const reduced = useReducedMotion();
+  const [manualStep, setManualStep] = useState<number | null>(null);
+  useMotionValueEvent(progress, "change", () => setManualStep(null));
+  const selected = manualStep ?? step;
   return (
     <figure ref={ref} className={`project-visual ${inView && !reduced ? "diagram-running" : ""}`} aria-label={`${project.shortTitle} system architecture`}>
-      <figcaption className="visual-topline"><span>SYSTEM ARCHITECTURE</span><span>{project.number} / 03</span></figcaption>
+      <figcaption className="visual-topline"><span>SYSTEM IN MOTION</span><span>{project.number} / {String(projects.length).padStart(2, "0")}</span></figcaption>
       <div className="architecture-heading"><h4>{architecture.title}</h4><span>{architecture.input}</span></div>
-      <div className="architecture-progress" aria-hidden="true">{architecture.stages.map((stage, index) => <StageProgress key={stage.name} progress={progress} index={index} />)}</div>
+      <ProjectDemo id={project.id} step={selected} />
       <ol className="architecture-flow">
-        {architecture.stages.map((stage, index) => <DiagramStage key={stage.name} stage={stage} index={index} active={index === step} projectId={project.id} progress={progress} />)}
+        {architecture.stages.map((stage, index) => <DiagramStage key={stage.name} stage={stage} index={index} active={index === selected} projectId={project.id} progress={progress} onSelect={() => setManualStep(index)} />)}
       </ol>
       <div className="architecture-context">
-        {architecture.stages.map((stage, index) => <p key={stage.name} className={step === index ? "is-current" : ""} aria-hidden={step !== index}>{stage.detail}</p>)}
+        {architecture.stages.map((stage, index) => <p key={stage.name} className={selected === index ? "is-current" : ""} aria-hidden={selected !== index}>{stage.detail}</p>)}
       </div>
       <div className="architecture-footnote">{architecture.note}</div>
     </figure>

@@ -12,7 +12,7 @@ test("scroll chapters, navigation and artwork remain usable", async ({ page }, t
   const pixels = await page.locator(".prism-container canvas").evaluate((el: HTMLCanvasElement) => el.width * el.height);
   expect(pixels).toBeLessThanOrEqual(1500000);
   await expect(page.getByRole("link", { name: "GitHub profile", exact: true })).toHaveAttribute("href", "https://github.com/Riitom");
-  await expect(page.getByRole("link", { name: "LinkedIn profile", exact: true })).toHaveAttribute("href", "https://www.linkedin.com/in/riitom-modak-b018a131a/");
+  await expect(page.getByRole("link", { name: "LinkedIn profile", exact: true })).toHaveAttribute("href", "https://www.linkedin.com/in/riitom-modak/");
   // Wait for the hero entrance; pressure lettering must fit even after its font loads.
   await expect(page.locator(".hero-name-stage")).toHaveCSS("opacity", "1");
   await page.evaluate(() => document.fonts.ready);
@@ -51,7 +51,7 @@ test("scroll chapters, navigation and artwork remain usable", async ({ page }, t
   await expect(page.locator(".scroll-expand__overlay")).toHaveCSS("opacity", "1");
   await page.screenshot({ path: testInfo.outputPath("expand-end.png") });
 
-  for (const id of ["scrap", "border", "thermal"]) {
+  for (const id of ["scrap", "border", "thermal", "quantum"]) {
     await page.locator(`.project-index a[href='#${id}']`).evaluate((el: HTMLAnchorElement) => el.click());
     await expect(page).toHaveURL(new RegExp(`#${id}$`));
     await expect(page.locator("html")).not.toHaveClass(/lenis-smooth/);
@@ -62,18 +62,27 @@ test("scroll chapters, navigation and artwork remain usable", async ({ page }, t
     await expect(page.locator(`#${id} .architecture-node.is-current`)).toHaveCount(1);
     await expect(page.locator(`#${id} .architecture-progress-track`)).toHaveCount(3);
     if (testInfo.project.name === "reduced-motion") {
-      await expect(page.locator(`#${id} .architecture-packet`).first()).toHaveCSS("animation-name", "none");
+      await expect(page.locator(`#${id} .demo-animated`).first()).toHaveCSS("animation-name", "none");
     } else {
-      await expect(page.locator(`#${id} .is-current .architecture-packet`)).toHaveCSS("animation-play-state", "running");
+      await expect(page.locator(`#${id} .demo-animated`).first()).toHaveCSS("animation-play-state", "running");
     }
+    // Let scroll-driven transforms and Chrome's compositor settle before capture.
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
     await page.screenshot({ path: testInfo.outputPath(`${id}.png`) });
+    await page.locator(`#${id} .architecture-stage-button`).nth(2).click();
+    await expect(page.locator(`#${id} .architecture-stage-button`).nth(2)).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(`#${id} .architecture-context p`).nth(2)).toHaveAttribute("aria-hidden", "false");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
   }
   await expect(page.locator("#border .project-repo-link")).toHaveAttribute("href", "https://github.com/Riitom/Border-Sense");
   await expect(page.locator("#thermal")).toContainText("ESP32");
   await expect(page.locator("#thermal")).not.toContainText("Raspberry Pi");
   await expect(page.locator("#projects")).not.toContainText("Project Beta");
-  await page.getByRole("link", { name: "Talk about this project" }).click();
+  await expect(page.locator(".project-chapter")).toHaveCount(4);
+  await expect(page.locator("#quantum")).toContainText("14-qubit");
+  await expect(page.locator("#quantum")).toContainText("benchmark is still pending");
+  await expect(page.locator("#quantum .visual-topline")).toContainText("04 / 04");
+  await page.locator("#quantum .project-repo-link").click();
   await expect(page.locator("html")).not.toHaveClass(/lenis-smooth/);
   await expect(page.locator("#contact h2")).toBeInViewport();
   await expect(page.locator("#contact .glass-panel")).toHaveCount(0);
@@ -123,7 +132,7 @@ test("hero leaves continuously and project stages animate without shifting text"
   await page.evaluate(() => window.scrollTo({ top: window.innerHeight * 0.7, behavior: "instant" }));
   expect((await page.locator(".hero-sticky-stage").boundingBox())!.y).toBeLessThan(-500);
   await page.screenshot({ path: testInfo.outputPath("hero-exit.png") });
-  for (const id of ["scrap", "border", "thermal"]) {
+  for (const id of ["scrap", "border", "thermal", "quantum"]) {
     const body = await page.locator(`#${id} .project-chapter-body`).evaluate(el => ({ top: el.getBoundingClientRect().top + window.scrollY, height: el.clientHeight }));
     const viewport = await page.evaluate(() => window.innerHeight);
     let diagramHeight = 0;
@@ -131,17 +140,18 @@ test("hero leaves continuously and project stages animate without shifting text"
       await page.evaluate(y => window.scrollTo({ top: y, behavior: "instant" }), body.top - viewport / 2 + body.height * progress);
       const node = page.locator(`#${id} .architecture-node`).nth(index);
       await expect(node).toHaveClass(/is-current/);
-      await expect(node.locator(".architecture-packet")).toHaveCSS("animation-play-state", "running");
+      await expect(page.locator(`#${id} .demo-animated`).first()).toHaveCSS("animation-play-state", "running");
       await expect(page.locator(`#${id} .architecture-context p`).nth(index)).toHaveCSS("opacity", "1");
       const height = await page.locator(`#${id} .project-visual`).evaluate(el => el.clientHeight);
       if (diagramHeight) expect(height).toBeCloseTo(diagramHeight, 0);
       diagramHeight = height;
     }
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
     await page.screenshot({ path: testInfo.outputPath(`${id}-flow.png`) });
   }
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await expect(page.locator(".diagram-running")).toHaveCount(0);
-  await expect(page.locator("#thermal .is-current .architecture-packet")).toHaveCSS("animation-play-state", "paused");
+  await expect(page.locator("#quantum .demo-animated").first()).toHaveCSS("animation-play-state", "paused");
 });
 });
 

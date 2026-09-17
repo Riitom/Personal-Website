@@ -11,6 +11,7 @@ const questions = {
   scrap: "How much can a camera tell us about scrap?",
   border: "When does movement become a meaningful event?",
   thermal: "Could a room adapt before you reach for the remote?",
+  quantum: "Can learned guidance find an exact route with less searching?",
 };
 
 const ProjectStep = ({ item, index }: { item: Project["steps"][number]; index: number }) => {
@@ -81,11 +82,11 @@ const ProjectsSection = () => (
     }>
       <p className="eyebrow">02 / SELECTED WORK</p>
       <h2>Built to see.<br />Designed to <em>understand.</em></h2>
-      <p>Three explorations at the intersection of software, intelligence and the physical world.</p>
+      <p>Four explorations at the intersection of software, intelligence and the physical world.</p>
     </ScrollExpand>
     <nav className="project-index page-width" aria-label="Project chapters">
       <span>EXPLORE THE WORK <ArrowDown size={14} /></span>
-      {projects.map(project => <a key={project.id} href={`#${project.id}`}><span>{project.number}</span>{project.id === "scrap" ? "Scrap inspection" : project.id === "border" ? "Border-Sense" : "Thermal controller"}<ArrowUpRight size={14} /></a>)}
+      {projects.map(project => <a key={project.id} href={`#${project.id}`}><span>{project.number}</span>{project.navTitle}<ArrowUpRight size={14} /></a>)}
     </nav>
     {projects.map(project => <ProjectChapter key={project.id} project={project} />)}
   </section>

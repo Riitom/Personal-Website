@@ -88,11 +88,6 @@ const ClickSpark = ({
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (event.button !== 0) return;
 
-    const target = event.target;
-    if (!(target instanceof Element)) return;
-    const control = target.closest("a, button, [role='button'], input, select, textarea");
-    if (!control || control.hasAttribute("disabled")) return;
-
     const x = event.clientX;
     const y = event.clientY;
     const startedAt = performance.now();
@@ -109,7 +104,7 @@ const ClickSpark = ({
   };
 
   return (
-    <div ref={rootRef} className="click-spark-root" onPointerDown={handlePointerDown}>
+    <div ref={rootRef} className="click-spark-root" onPointerDownCapture={handlePointerDown}>
       <canvas ref={canvasRef} className="click-spark-canvas" aria-hidden="true" />
       {children}
     </div>

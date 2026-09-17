@@ -5,6 +5,7 @@ import { ArrowDown, ArrowUpRight, Mail, MapPin, Briefcase } from "lucide-react";
 import GradientText from "./reactbits/GradientText";
 import Prism from "./reactbits/Prism";
 import TextPressure from "./reactbits/TextPressure";
+import { socialLinks } from "@/data/socials";
 
 const GitHubMark = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -48,9 +49,9 @@ const HeroSection = () => {
               <a className="hero-work-link" href="#projects">Explore my work <ArrowUpRight size={18} /></a>
             </div>
             <div className="hero-socials">
-              <a href="https://github.com/Riitom" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub profile"><GitHubMark /></a>
-              <a href="https://www.linkedin.com/in/riitom-modak-b018a131a/" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn profile"><LinkedInMark /></a>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Email Riitom"><Mail /></a>
+              <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub profile"><GitHubMark /></a>
+              <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn profile"><LinkedInMark /></a>
+              <a href={socialLinks.email} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Email Riitom"><Mail /></a>
             </div>
           </div>
         </motion.div>

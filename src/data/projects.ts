@@ -1,7 +1,8 @@
 export type Project = {
-  id: "scrap" | "border" | "thermal";
+  id: "scrap" | "border" | "thermal" | "quantum";
   number: string;
   title: string;
+  navTitle: string;
   shortTitle: string;
   category: string;
   status: string;
@@ -15,7 +16,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: "scrap", number: "01", title: "AI-Assisted Scrap Detection & Weight Estimation",
+    id: "scrap", number: "01", title: "AI-Assisted Scrap Detection & Weight Estimation", navTitle: "Scrap inspection",
     shortTitle: "From waste to insight.", category: "COMPUTER VISION / APPLIED ML", status: "Working application",
     summary: "An inspection workflow that turns a material image into detections, explainable weight ranges and a traceable record.",
     tags: ["Python", "YOLO26x", "FastAPI", "React", "SQLite"], accent: "#79edb5",
@@ -28,7 +29,7 @@ export const projects: Project[] = [
     note: "Weight is an approximate engineering range; operational accuracy requires calibration and measured reference samples.",
   },
   {
-    id: "border", number: "02", title: "BORDER-SENSE AI", shortTitle: "Understand motion. See context.",
+    id: "border", number: "02", title: "BORDER-SENSE AI", navTitle: "Border-Sense", shortTitle: "Understand motion. See context.",
     category: "VIDEO INTELLIGENCE / TRACKING", status: "MVP 1.2.1",
     summary: "A local video-intelligence prototype that combines object tracking, relative depth and restricted-area event review.",
     tags: ["YOLO26x", "ByteTrack", "Depth Anything V2", "FastAPI", "CUDA"], accent: "#af9cff",
@@ -41,7 +42,7 @@ export const projects: Project[] = [
     note: "A working prototype for human review. Depth is relative, and predictions do not establish identity, intent or physical distance.",
   },
   {
-    id: "thermal", number: "03", title: "ESP32 Smart Thermal Controller", shortTitle: "Comfort, with a little intelligence.",
+    id: "thermal", number: "03", title: "ESP32 Smart Thermal Controller", navTitle: "Thermal controller", shortTitle: "Comfort, with a little intelligence.",
     category: "EMBEDDED AI / ENERGY OPTIMIZATION", status: "Research & system design",
     summary: "An autonomous thermal-control design that uses local ML to choose a temperature target, with a separate controller managing appliance constraints.",
     tags: ["ESP32", "Python", "Edge ML", "Sensor fusion", "C/C++"], accent: "#f3c78b",
@@ -51,5 +52,17 @@ export const projects: Project[] = [
       { label: "THE RESEARCH", title: "Measure the improvement honestly.", text: "The planned evaluation compares fixed-setpoint, predictive and ACWPH baselines against ML-assisted control. Chronological data splits, measured kWh, comfort preservation, switching counts and embedded resource usage will determine whether the learned target adds value.", points: ["Time-based training and evaluation", "Energy, comfort and inference-footprint metrics"] },
     ],
     note: "Based on the technical PRD. Hardware validation, model evaluation and measured energy savings remain planned; no performance results are claimed.",
+  },
+  {
+    id: "quantum", number: "04", title: "Hybrid QNN-Guided EV Routing", navTitle: "Quantum EV routing", shortTitle: "Learn the guidance. Keep the guarantees.",
+    category: "QUANTUM ML / DYNAMIC ROUTING", status: "Research prototype · in progress",
+    summary: "Exploring whether a hybrid quantum-classical model can reduce search effort in battery-constrained EV routing, while exact graph search remains responsible for feasible routes.",
+    tags: ["Python", "PyTorch", "14-qubit HQNN", "OSMnx", "Graph search"], accent: "#81c7f5",
+    steps: [
+      { label: "THE PROBLEM", title: "A route changes while you drive.", text: "The notebook uses Kolkata’s OpenStreetMap road topology with twelve simulated charging stations. An EV must reach a charger with a battery reserve, then charge to its target. Traffic, road closures, queues and station outages can change along the journey, requiring replanning from the vehicle’s actual state.", points: ["Real road topology; simulated operating conditions", "Battery-state search and dynamic replanning"] },
+      { label: "THE SYSTEM", title: "Learn where to look. Verify the route.", text: "A 136-feature model combines a FiLM-conditioned classical branch with a simulated 14-qubit circuit. It learns residual distance guidance from settled Dijkstra labels. Anchor predictions form a spatial potential, which is calibrated before guiding bidirectional A*. The model guides search; it does not directly choose or certify a route.", points: ["Two context qubits, twelve main qubits, two data reuploads", "Consistency-calibrated guidance and exact snapshot search"] },
+      { label: "THE RESEARCH", title: "Let the experiment decide.", text: "The evaluation compares Dijkstra, bidirectional A* and HQNN-guided bidirectional A* on shared scenarios. It separates computer runtime from simulated trip time and energy. Component and reduced-pipeline checks are recorded for CPU and NVIDIA CUDA; the complete five-seed, forty-trip Kolkata benchmark is still pending.", points: ["Report inference overhead as well as search effort", "No claimed quantum advantage or measured routing speedup"] },
+    ],
+    note: "Based on the technical report and notebook. Quantum circuits are simulated, not run on quantum hardware. Full-city benchmark results and a quantum advantage have not been established.",
   },
 ];

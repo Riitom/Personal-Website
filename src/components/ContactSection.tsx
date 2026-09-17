@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useTransform } from "framer-motion";
 import { useSceneScroll as useScroll } from "@/hooks/useSceneScroll";
 import { ArrowUpRight } from "lucide-react";
+import { socialLinks } from "@/data/socials";
 
 const ContactSection = () => {
   const ref = useRef<HTMLElement>(null);
@@ -16,8 +17,8 @@ const ContactSection = () => {
         <div className="contact-bottom">
           <div><p className="contact-intro">An interesting problem. A product worth building. Or a shared curiosity about AI and what comes next.</p><p className="contact-availability">Open to opportunities, collaborations and conversations.</p></div>
           <div className="contact-links">
-            <a className="contact-email" href="https://mail.google.com/mail/?view=cm&fs=1&to=riitom09@gmail.com" target="_blank" rel="noopener noreferrer"><span>Start a conversation<small>riitom09@gmail.com</small></span><ArrowUpRight size={28} aria-hidden="true" /></a>
-            <div className="contact-elsewhere"><a href="https://github.com/Riitom" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a><a href="https://www.linkedin.com/in/riitom-modak-b018a131a/" target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a></div>
+            <a className="contact-email" href={socialLinks.email} target="_blank" rel="noopener noreferrer"><span>Start a conversation<small>riitom09@gmail.com</small></span><ArrowUpRight size={28} aria-hidden="true" /></a>
+            <div className="contact-elsewhere"><a href={socialLinks.github} target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={14} aria-hidden="true" /></a><a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={14} aria-hidden="true" /></a></div>
           </div>
         </div>
       </div>
