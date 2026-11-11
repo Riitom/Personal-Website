@@ -4,7 +4,10 @@ test("scroll chapters, navigation and artwork remain usable", async ({ page }, t
   const runtimeErrors: string[] = [];
   page.on("pageerror", error => runtimeErrors.push(error.message));
   page.on("console", message => { if (message.type() === "error" && /shader|webgl|uncaught/i.test(message.text())) runtimeErrors.push(message.text()); });
+  await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
+  await expect(page.getByRole("button", { name: "Toggle theme" })).toHaveCount(0);
+  await expect(page.locator("html")).toHaveCSS("color-scheme", "dark");
   await expect(page.getByRole("heading", { name: "RIITOM MODAK", exact: true })).toBeVisible();
   await expect(page.locator(".prism-container canvas")).toBeVisible();
   await expect(page.locator(".hero-prism-background")).toHaveCSS("position", "absolute");
@@ -90,12 +93,7 @@ test("scroll chapters, navigation and artwork remain usable", async ({ page }, t
   await page.screenshot({ path: testInfo.outputPath("dark-contact.png") });
   const canvasHeight = await page.locator(".click-spark-canvas").evaluate(el => el.clientHeight);
   expect(canvasHeight).toBe(viewportHeight);
-  await page.getByRole("button", { name: "Toggle theme" }).click();
-  await expect(page.locator("html")).not.toHaveClass(/dark/);
-  await expect.poll(() => page.locator(".site-shell").evaluate(el => getComputedStyle(el).backgroundColor)).not.toBe("rgb(0, 0, 0)");
-  // Await the existing theme transition before recording the light-theme result.
-  await page.locator(".site-shell").evaluate(async el => { await Promise.all(el.getAnimations().map(animation => animation.finished)); });
-  await page.screenshot({ path: testInfo.outputPath("light-contact.png") });
+  await expect(page.locator(".site-shell")).toHaveCSS("background-color", "rgb(0, 0, 0)");
   expect(runtimeErrors).toEqual([]);
 });
 

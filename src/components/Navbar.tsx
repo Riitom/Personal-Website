@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import ThemeToggle from "./ThemeToggle";
 import GooeyNav from "./reactbits/GooeyNav";
 
 const navLinks = [
@@ -33,11 +32,8 @@ const Navbar = () => {
         <a href="#home" className="font-heading font-bold text-lg text-foreground hover:text-primary transition-colors">
           riitom<span className="text-primary">.dev</span>
         </a>
-        <div className="flex items-center gap-6">
-          <div className="hidden sm:block">
-            <GooeyNav items={navLinks} />
-          </div>
-          <ThemeToggle />
+        <div className="hidden sm:block">
+          <GooeyNav items={navLinks} />
         </div>
       </div>
       <div className="mobile-nav" aria-label="Section navigation">

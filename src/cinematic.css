@@ -1,5 +1,4 @@
 /* Scroll chapters share the existing liquid-glass palette and corner tokens. */
-.dark { --background: 0 0% 0%; --card: 0 0% 4%; --foreground: 150 18% 94%; --muted-foreground: 220 8% 68%; }
 body { overflow-x: clip; }
 .site-shell { background: hsl(var(--background)); }
 .page-width { width: min(1180px, calc(100% - 96px)); margin-inline: auto; }
@@ -12,10 +11,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid hsl(var(--primary)); 
 .mobile-nav { display: none; }
 .glass-nav.hero-nav { background: #080b1233; border-color: #ffffff0d; }
 .hero-nav a, .hero-nav .gooey-nav-list > a { color: #d2d9e4; }
-.hero-nav .glass-toggle { background: #15191e88; border-color: #ffffff22; }
-.liquid-orb { opacity: .12; }
-.liquid-grain { opacity: .018; }
-.dark .liquid-orb, .dark .liquid-grain { display: none; }
+.liquid-orb, .liquid-grain { display: none; }
 html.lenis { scroll-behavior: auto; }
 
 /* The opening scene leaves with the document, without a sticky-release handoff. */

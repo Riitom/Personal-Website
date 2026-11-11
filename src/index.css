@@ -5,38 +5,10 @@
 
 @layer base {
   :root {
-    --background: 150 45% 96%;
-    --foreground: 158 29% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 158 29% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 158 29% 12%;
-    --primary: 151 62% 48%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 153 30% 91%;
-    --secondary-foreground: 158 29% 12%;
-    --muted: 151 30% 93%;
-    --muted-foreground: 159 13% 39%;
-    --accent: 151 62% 48%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 153 36% 82%;
-    --input: 153 36% 82%;
-    --ring: 151 62% 48%;
-    --radius: 1.25rem;
-
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-
-    --glow: 0 12px 30px hsl(151 62% 48% / 0.16);
-    --glow-strong: 0 18px 45px hsl(151 62% 48% / 0.28);
-  }
-
-  .dark {
-    --background: 160 32% 7%;
-    --foreground: 150 30% 94%;
-    --card: 160 25% 12%;
+    color-scheme: dark;
+    --background: 0 0% 0%;
+    --foreground: 150 18% 94%;
+    --card: 0 0% 4%;
     --card-foreground: 150 30% 94%;
     --popover: 160 25% 12%;
     --popover-foreground: 150 30% 94%;
@@ -45,7 +17,7 @@
     --secondary: 160 19% 16%;
     --secondary-foreground: 150 30% 94%;
     --muted: 160 20% 14%;
-    --muted-foreground: 151 14% 69%;
+    --muted-foreground: 220 8% 68%;
     --accent: 151 72% 61%;
     --accent-foreground: 160 32% 7%;
     --destructive: 0 62% 30%;
@@ -53,6 +25,10 @@
     --border: 154 20% 27%;
     --input: 154 20% 27%;
     --ring: 151 72% 61%;
+    --radius: 1.25rem;
+
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 
     --glow: 0 12px 30px hsl(151 72% 61% / 0.18);
     --glow-strong: 0 18px 50px hsl(151 72% 61% / 0.3);
@@ -70,9 +46,6 @@
     overflow-x: hidden;
   }
   ::selection {
-    background: hsl(145 65% 42% / 0.25);
-  }
-  .dark ::selection {
     background: hsl(145 65% 50% / 0.3);
   }
 }
@@ -217,12 +190,9 @@ html {
 .social-link,
 .skill-card,
 .project-card,
-.glass-toggle,
 .footer-glass,
 .scroll-cue {
-  border: 1px solid hsl(0 0% 100% / 0.46);
-  background: linear-gradient(135deg, hsl(0 0% 100% / 0.58), hsl(151 62% 94% / 0.24));
-  box-shadow: 0 18px 48px hsl(160 38% 25% / 0.09), inset 0 1px 0 hsl(0 0% 100% / 0.7);
+  border: 1px solid transparent;
   backdrop-filter: blur(22px) saturate(145%);
   -webkit-backdrop-filter: blur(22px) saturate(145%);
 }
@@ -233,7 +203,6 @@ html {
 .dark .social-link,
 .dark .skill-card,
 .dark .project-card,
-.dark .glass-toggle,
 .dark .footer-glass,
 .dark .scroll-cue {
   border-color: hsl(151 48% 84% / 0.15);
@@ -250,9 +219,6 @@ html {
 }
 
 .glass-nav-scrolled {
-  border-bottom-color: hsl(0 0% 100% / 0.42);
-  background: hsl(var(--background) / 0.62);
-  box-shadow: 0 10px 32px hsl(160 38% 20% / 0.08);
   backdrop-filter: blur(20px) saturate(150%);
   -webkit-backdrop-filter: blur(20px) saturate(150%);
 }
@@ -403,8 +369,7 @@ html {
   background: linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(183 70% 60% / 0.1));
 }
 
-.social-link,
-.glass-toggle {
+.social-link {
   display: grid;
   width: 3rem;
   height: 3rem;
@@ -419,8 +384,7 @@ html {
   height: 1.22rem;
 }
 
-.social-link:hover,
-.glass-toggle:hover {
+.social-link:hover {
   color: hsl(var(--primary));
   border-color: hsl(var(--primary) / 0.46);
   box-shadow: var(--glow), inset 0 1px 0 hsl(0 0% 100% / 0.7);
@@ -511,16 +475,6 @@ html {
   background: hsl(var(--primary));
   box-shadow: 0 0 10px hsl(var(--primary));
   animation: gooey-particle 560ms cubic-bezier(.2, .8, .25, 1) var(--particle-delay) both;
-}
-
-.scroll-reveal {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.scroll-reveal-word {
-  display: inline-block;
-  will-change: transform, opacity, filter;
 }
 
 .skill-card {
@@ -646,31 +600,10 @@ html {
   display: flex;
   width: 100%;
   height: 100%;
-  border: 1px solid hsl(0 0% 100% / 0.46);
-  background: linear-gradient(135deg, hsl(0 0% 100% / 0.56), hsl(151 62% 94% / 0.2));
-  box-shadow: 0 14px 36px hsl(160 35% 25% / 0.07), inset 0 1px 0 hsl(0 0% 100% / 0.68);
+  border: 1px solid transparent;
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   transition: border-color 300ms ease, box-shadow 300ms ease, background 300ms ease;
-}
-
-.border-glow {
-  position: relative;
-  padding: 1px;
-  overflow: hidden;
-  border-radius: 1.05rem;
-  background: hsl(var(--primary) / 0.1);
-  isolation: isolate;
-}
-
-.border-glow::before {
-  position: absolute;
-  inset: -1px;
-  z-index: 0;
-  content: "";
-  opacity: var(--edge-opacity, 0);
-  background: radial-gradient(230px circle at var(--edge-x, 50%) var(--edge-y, 50%), hsl(var(--primary)), hsl(183 75% 63% / 0.66) 22%, transparent 68%);
-  transition: opacity 250ms ease;
 }
 
 .dark .project-card {
@@ -682,7 +615,6 @@ html {
 .project-card:hover {
   border-color: hsl(var(--primary) / 0.46);
   box-shadow: var(--glow-strong), inset 0 1px 0 hsl(0 0% 100% / 0.72);
-  background: linear-gradient(135deg, hsl(0 0% 100% / 0.72), hsl(var(--primary) / 0.1));
 }
 
 .dark .project-card:hover {

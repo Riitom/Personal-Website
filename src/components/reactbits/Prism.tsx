@@ -6,7 +6,7 @@ type PrismProps = {
   height?: number; baseWidth?: number; animationType?: "rotate" | "hover" | "3drotate";
   glow?: number; offset?: { x?: number; y?: number }; noise?: number; transparent?: boolean;
   scale?: number; hueShift?: number; colorFrequency?: number; hoverStrength?: number;
-  inertia?: number; bloom?: number; suspendWhenOffscreen?: boolean; timeScale?: number; lightMode?: boolean;
+  inertia?: number; bloom?: number; suspendWhenOffscreen?: boolean; timeScale?: number;
   maxDpr?: number; maxPixels?: number;
 };
 
@@ -26,7 +26,6 @@ const Prism = ({
   bloom = 1,
   suspendWhenOffscreen = false,
   timeScale = 0.5,
-  lightMode = false,
   maxDpr = 1.5,
   maxPixels = 1500000,
 }: PrismProps) => {
@@ -111,7 +110,6 @@ const Prism = ({
       uniform float uMinAxis;
       uniform float uPxScale;
       uniform float uTimeScale;
-      uniform float uLightMode;
 
       vec4 tanh4(vec4 x){
         vec4 e2x = exp(2.0 * min(x, vec4(20.0)));
@@ -201,13 +199,7 @@ const Prism = ({
           col = clamp(hueRotation(uHueShift) * col, 0.0, 1.0);
         }
 
-        if (uLightMode > 0.5) {
-          float peak = max(col.r, max(col.g, col.b));
-          vec3 chroma = pow(clamp(col / max(peak, 0.0001), 0.0, 1.0), vec3(1.14));
-          gl_FragColor = vec4(mix(vec3(1.0), chroma, o.a * 0.94), 1.0);
-        } else {
-          gl_FragColor = vec4(col, o.a);
-        }
+        gl_FragColor = vec4(col, o.a);
       }
     `;
 
@@ -240,8 +232,7 @@ const Prism = ({
         uPxScale: {
           value: 1 / ((gl.drawingBufferHeight || 1) * 0.1 * SCALE)
         },
-        uTimeScale: { value: reducedMotion ? 0 : TS },
-        uLightMode: { value: lightMode ? 1.0 : 0.0 }
+        uTimeScale: { value: reducedMotion ? 0 : TS }
       }
     });
     const mesh = new Mesh(gl, { geometry, program });
@@ -468,7 +459,6 @@ const Prism = ({
     inertia,
     bloom,
     suspendWhenOffscreen,
-    lightMode,
     maxDpr,
     maxPixels,
   ]);

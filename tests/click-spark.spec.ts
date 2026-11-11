@@ -40,9 +40,11 @@ test("sparks follow page-wide clicks and taps without blocking controls", async 
   const introBox = (await intro.boundingBox())!;
   await checkClick({ x: introBox.x + introBox.width / 2, y: introBox.y + introBox.height / 2 });
 
-  const toggleBox = (await page.getByRole("button", { name: "Toggle theme" }).boundingBox())!;
-  await checkClick({ x: toggleBox.x + toggleBox.width / 2, y: toggleBox.y + toggleBox.height / 2 });
-  await expect(page.locator("html")).not.toHaveClass(/dark/);
+  const stageButton = page.locator("#scrap .architecture-stage-button").nth(1);
+  await stageButton.scrollIntoViewIfNeeded();
+  const stageBox = (await stageButton.boundingBox())!;
+  await checkClick({ x: stageBox.x + stageBox.width / 2, y: stageBox.y + stageBox.height / 2 });
+  await expect(stageButton).toHaveAttribute("aria-pressed", "true");
 
   // Coordinates must stay viewport-relative well below the landing section.
   const projectText = page.locator("#quantum .project-hook");

@@ -15,7 +15,7 @@ A scroll-led portfolio exploring my background, interests and work in Python, AI
 - **Selected work:** four projects open with a question and a horizontal title reveal, then unfold through three stages. Each left-hand panel contains a distinct animated schematic: material inspection, object tracking, guarded temperature control or dynamic EV routing. Scroll-linked stages can also be selected directly. Explanations crossfade without changing the panel height. These are explanatory animations, not live metrics or generated project imagery.
 - **The next chapter:** an open, full-width typographic contact section continues the narrative, with email and social links instead of a separate glass card.
 
-Dark mode uses a true black page background with the colorful Prism and small project accents. Light mode and saved theme preference remain available.
+The site is dark-only, with a true black page background, the colorful Prism and small project accents. The dark palette is set in the initial HTML and CSS and stays the same across system preferences, reloads and routes.
 
 ## Featured projects
 
@@ -70,7 +70,7 @@ Project descriptions are maintained in `src/data/projects.ts`, architecture summ
 
 React 19 · TypeScript · Vite · Tailwind CSS · Framer Motion · Lenis · OGL · Lucide React · React Router
 
-The effects adapt concepts from [React Bits](https://www.reactbits.dev/): Prism, TextPressure, GradientText, GooeyNav, MagicBento, ScrollExpand, ScrollReveal, ClickSpark and GradualBlur. [Lenis](https://github.com/darkroomengineering/lenis) handles wheel interpolation.
+The effects adapt concepts from [React Bits](https://www.reactbits.dev/): Prism, TextPressure, GradientText, GooeyNav, MagicBento, ScrollExpand, ClickSpark and GradualBlur. [Lenis](https://github.com/darkroomengineering/lenis) handles wheel interpolation.
 
 ## Local development
 
@@ -83,7 +83,7 @@ npm ci
 npm run dev
 ```
 
-Open the local address printed by Vite. On Windows, use `npm.cmd` if PowerShell blocks the npm script shim.
+Open the local address printed by Vite. The development server binds to `127.0.0.1` by default so it is accessible only from this computer. On Windows, use `npm.cmd` if PowerShell blocks the npm script shim.
 
 | Command | Purpose |
 | --- | --- |
